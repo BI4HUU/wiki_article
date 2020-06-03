@@ -5,16 +5,18 @@ if (!$mysqli) {
 	exit;
 }
 ?>
+
 <?php include "header.php" ?>
 <section class="container">
 <?php
 $query =  "SELECT * FROM article WHERE 1";
-if ($result = $mysqli->query($query)) {
-    while ($row = $result->fetch_assoc()) {
-        echo ("<h1>" . $row['title'] . "</h1><p>" . $row['body'] . "</p><hr>");
-    }
+	if ($result = $mysqli->query($query)) {
+		while ($row = $result->fetch_assoc()) {
+			echo ("<a href='" . $row['linc'] . ".php'><h1>" . $row['title'] . "</h1><p>" . $row['body'] . "</p><div class='author'>" . $row['name'] . "  " . $row['date'] . "</div></a>
+			<hr>");
+		}
 
-    $result->free();
+	$result->free();
 }
 ?>
 </section>
