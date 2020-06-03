@@ -1,3 +1,6 @@
+<?php session_start(); 
+?>
+
 <!DOCTYPE html>
 
 <?php include "header.php" ?>
@@ -5,6 +8,7 @@
 <section class="container">
 	<div id="wrap_gen">
 		<!-- <h4>Keywords</h4> -->
+		<textarea linc placeholder="linc" tabindex cols rows ></textarea>
 		<textarea keywords placeholder="Keywords" tabindex cols rows ></textarea>
 		<!-- <h4>Description</h4> -->
 		<textarea description placeholder="Description" tabindex cols rows ></textarea>
@@ -13,9 +17,9 @@
 		<!--<h4>Photo & Video</h4>-->
 		<!--<input photo_video type="file" accept name>-->
 		<!-- <h4>Paragraph</h4> -->
-		<textarea paragraph  placeholder="Paragraph" tabindex cols rows ></textarea>
+		<!-- <textarea paragraph  placeholder="Paragraph" tabindex cols rows ></textarea> -->
 		<!-- <h4>Heading</h4> -->
-		<textarea heading placeholder="Heading" tabindex cols rows ></textarea>
+		<!-- <textarea heading placeholder="Heading" tabindex cols rows ></textarea> -->
 		<!--<h4>Photo</h4>-->
 		<!--<input photo type="file" accept name>-->
 	</div>
@@ -30,12 +34,17 @@ var textarea = document.getElementsByTagName('textarea')
 // innerText
 var body = document.getElementById("body");
 var sendDataHTML = "";
+	var linc;
 	var title;
 	var name = 'nameTest'
 	var description;
 	var keywords;
 function Generate() {
 	for (var i = 0; i < textarea.length; i++) {
+
+		if (textarea[i].hasAttribute('linc')) {
+			linc = textarea[i].value;
+		}
 
 		if (textarea[i].hasAttribute('keywords')) {
 			keywords = textarea[i].value;
@@ -70,13 +79,10 @@ function Generate() {
 	const btn = document.querySelector('button');
 
 	function sendData() {
-
 		const XHR = new XMLHttpRequest();
-
 		XHR.open( 'POST', 'addarticle.php' );
-
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-		XHR.send( `body=${ sendDataHTML }&title=${title }&description=${description }&keywords=${keywords }&name=${name }` );
+		XHR.send( `body=${ sendDataHTML }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&name=${name }` );
 	} 
 	sendData()
 
@@ -108,4 +114,4 @@ function AddHeading() {
 </script>
 
 </section>
-<?php include "footer.php" ?>
+<?php include "footer.php";  ?>
