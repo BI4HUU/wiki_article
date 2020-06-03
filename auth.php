@@ -1,19 +1,23 @@
-<?php 
-    session_start(); 
-    include "header.php";
+<?php
+	session_start();
+	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+
+	$tel = $_POST['tel'];
+	$code = $_POST['confirm'];
+
+	$res = $connect->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
+	$row = $res->fetch_assoc();
+
+// if () {
+// }
+
+	if ($row['tel'] == $tel and $row['code'] == $code) {
+		$sessionkey = $row['sessionkey'];
+		$_SESSION['tel'] = $row['tel'];
+		$_SESSION['full_name'] = $row['name'];
+		setcookie("sessionkey", $sessionkey, time()+999999999);
+	} else {
+		die("False password");
+	};
+
 ?>
-<section class="container">
-  <form  action="/authphp.php" method="post">
-	<!-- <label>Логин</label>
-	<input type="text" name="login" placeholder="Введите свой логин"> -->
-	<label>Телефон</label><br>
-	<input type="tel" name="tel" placeholder="+38 098 765 43 21"><br>
-	<label>Пароль</label><br>
-	<input type="password" name="password" placeholder="Введите пароль"><br>
-	<button class="button button_signIn" type="submit" class="login-btn">Войти</button>
-</form>
-<a href="register.php">
-    <div class="button button_signIn">Register</div>
-</a>
-</section>
-<?php include "footer.php" ?>
