@@ -83,6 +83,9 @@ function Generate() {
 		XHR.open( 'POST', 'addarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		XHR.send( `body=${ sendDataHTML }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&name=${name }` );
+		XHR.onload = function() {
+				document.location.href = "/g.php";
+			};
 	} 
 	sendData()
 

@@ -7,17 +7,17 @@ if (!$mysqli) {
 ?>
 
 <?php include "header.php" ?>
-<section class="container">
+<section class="container container_index row">
 <?php
 $query =  "SELECT * FROM article WHERE 1";
 	if ($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_assoc()) {
-			echo ("<a href='" . $row['linc'] . ".php'><h1>" . $row['title'] . "</h1><p>" . $row['body'] . "</p><div class='author'>" . $row['name'] . "  " . $row['date'] . "</div></a>
-			<hr>");
+			echo ("<a class='card' href='" . $row['linc'] . ".php'><h2 class='card_text'>" . $row['title'] . "</h2></a>");
 		}
 
 	$result->free();
 }
 ?>
+
 </section>
 <?php include "footer.php" ?>

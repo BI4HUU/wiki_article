@@ -1,27 +1,23 @@
-<?php 
-session_start();
-$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article"); 
-$email = $_POST['tel'];
-$_SESSION['full_name'] = $_POST['full_name'];
-$pass = md5($_POST['password']);
+<?php
+	session_start();
+	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
 
-$res = $connect->query("SELECT * FROM `users` WHERE 1"); 
+	$tel = $_POST['tel'];
+	$code = $_POST['confirm'];
 
-$res->data_seek(0);
+	$res = $connect->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
+	$row = $res->fetch_assoc();
 
+// if () {
+// }
 
-
-while ($row = $res->fetch_assoc()) {
-		if ($row['email'] == $email) {
-		
-		if (md5($_POST['password']) === $row['password']) {
-			$_SESSION['message'] = 'Password ok';
-			header('Location: https://preterit-strikes.000webhostapp.com/create.php');
-		} else {
-			$_SESSION['message'] = 'Password no';
-			echo  'Password no';
-		}
-	}
-}
+	if ($row['tel'] == $tel and $row['code'] == $code) {
+		$sessionkey = $row['sessionkey'];
+		$_SESSION['tel'] = $row['tel'];
+		$_SESSION['full_name'] = $row['name'];
+		setcookie("sessionkey", $sessionkey, time()+999999999);
+	} else {
+		die("False password");
+	};
 
 ?>

@@ -2,7 +2,6 @@
 include "header.php";
 ?>
 <section class="container">
-<div id="mesegesCalbeack"></div>
 <form>
 	<!-- <form  action="/auth.php" method="post"> -->
 	<!-- <label>Логин</label>
@@ -27,6 +26,7 @@ include "header.php";
 	</div>
 	<?php  ?>
 </form>
+<div id="mesegesCalbeack"></div>
 </section>
 
 <script>

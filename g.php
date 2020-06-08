@@ -33,8 +33,6 @@ $text2 = <<<'HEREDOC2'
 HEREDOC2;
 while ($row = $result->fetch_assoc()) {
 	$nameFile = $row['linc'] . ".php";
-	echo ( $row['body'] );
-	echo ( 'body');
 	// $fp = fopen( . ".php", 'w');
 	$fp = fopen($nameFile, 'w');
 
@@ -42,8 +40,8 @@ while ($row = $result->fetch_assoc()) {
 	fclose($fp);
 }
 
-// $result->free();
+include "header.php";
 
 ?>
-
+<h1>Thank! The article will be added after verification.</h1>
 

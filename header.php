@@ -12,9 +12,14 @@
 	};
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
 <header>
@@ -25,14 +30,14 @@
 				<div class="burger_line burger_line_2"></div>
 				<div class="burger_line burger_line_3"></div>
 			</div>
-			<div class="logo"><a href="/">LOGO</a></div>
+			<div class="logo"><a href="/" rel="noreferrer noopener">LOGO</a></div>
 		</div>
 		<div class="menu">
 			<div class="menu_item menu_item1 menu_item_active">Trending</div>
 			<div class="menu_item menu_item2">Discover</div>
 		</div>
 		<div class="auth_download">
-			<a href="/create.php">
+			<a href="/create.php"  rel="noreferrer noopener">
 				<svg class="svg_files" xmlns="http://www.w3.org/2000/svg" height="511pt" version="1.1" viewBox="-53 1 511 511.99906" width="511pt"><g><path d="M 276.410156 3.957031 C 274.0625 1.484375 270.84375 0 267.507812 0 L 67.777344 0 C 30.921875 0 0.5 30.300781 0.5 67.152344 L 0.5 444.84375 C 0.5 481.699219 30.921875 512 67.777344 512 L 338.863281 512 C 375.71875 512 406.140625 481.699219 406.140625 444.84375 L 406.140625 144.941406 C 406.140625 141.726562 404.65625 138.636719 402.554688 136.285156 Z M 279.996094 43.65625 L 364.464844 132.328125 L 309.554688 132.328125 C 293.230469 132.328125 279.996094 119.21875 279.996094 102.894531 Z M 338.863281 487.265625 L 67.777344 487.265625 C 44.652344 487.265625 25.234375 468.097656 25.234375 444.84375 L 25.234375 67.152344 C 25.234375 44.027344 44.527344 24.734375 67.777344 24.734375 L 255.261719 24.734375 L 255.261719 102.894531 C 255.261719 132.945312 279.503906 157.0625 309.554688 157.0625 L 381.40625 157.0625 L 381.40625 444.84375 C 381.40625 468.097656 362.113281 487.265625 338.863281 487.265625 Z M 338.863281 487.265625 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 305.101562 401.933594 L 101.539062 401.933594 C 94.738281 401.933594 89.171875 407.496094 89.171875 414.300781 C 89.171875 421.101562 94.738281 426.667969 101.539062 426.667969 L 305.226562 426.667969 C 312.027344 426.667969 317.59375 421.101562 317.59375 414.300781 C 317.59375 407.496094 312.027344 401.933594 305.101562 401.933594 Z M 305.101562 401.933594 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 140 268.863281 L 190.953125 214.074219 L 190.953125 349.125 C 190.953125 355.925781 196.519531 361.492188 203.320312 361.492188 C 210.125 361.492188 215.6875 355.925781 215.6875 349.125 L 215.6875 214.074219 L 266.640625 268.863281 C 269.113281 271.457031 272.332031 272.820312 275.667969 272.820312 C 278.636719 272.820312 281.730469 271.707031 284.078125 269.480469 C 289.027344 264.78125 289.398438 256.988281 284.699219 252.042969 L 212.226562 174.253906 C 209.875 171.78125 206.660156 170.296875 203.199219 170.296875 C 199.734375 170.296875 196.519531 171.78125 194.171875 174.253906 L 121.699219 252.042969 C 117 256.988281 117.371094 264.902344 122.316406 269.480469 C 127.511719 274.179688 135.300781 273.808594 140 268.863281 Z M 140 268.863281 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /></g></svg>
 			</a>
 
@@ -56,11 +61,11 @@
 </header>
 <div class="menuLeftWrap">
 	<main class="menuLeft">
-		<a href="#">О приложении</a>
-		<a href="#">Контакты</a>
-		<a href="#">Руководство по предоставлению персональных данных</a>
-		<a href="#">Пользовательское соглашение</a>
-		<a href="#">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
+		<a href="#" rel="noreferrer noopener">О приложении</a>
+		<a href="#" rel="noreferrer noopener">Контакты</a>
+		<a href="#" rel="noreferrer noopener">Руководство по предоставлению персональных данных</a>
+		<a href="#" rel="noreferrer noopener">Пользовательское соглашение</a>
+		<a href="#" rel="noreferrer noopener">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
 	</main>
 	<div class="menuShadw"></div>
 </div>
@@ -376,16 +381,45 @@
 	
 </style>
 
-<!-- JQuery -->
+<!-- Bootstrap -->
 <style>
 
 	.container {
-	width: 100%;
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: auto;
+		width: 100%;
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+		margin-left: auto;
 	}
+
+	.container_index {
+		justify-content: center;
+	}
+
+	.card {
+		display: flex;
+		height: 300px;
+		width: 300px;
+		margin: 15px;
+		background-color: #ddd;
+	}
+
+	.card_text {
+		margin: 0;
+		margin-top: auto;
+		padding: 12px;
+		width: 100%;
+		color: #ffffff;
+		background-color: rgba(33, 33, 33, 0.4);
+	}
+
+	.row {
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+	}
+
 	@media (min-width: 576px) {
 		.container {
 			max-width: 540px;
@@ -406,6 +440,12 @@
 			max-width: 1140px;
 		}
 	}
+	@media (min-width: 1500px) {
+		.container {
+			max-width: 1330px;
+		}
+	}
+
 </style>
 
  <!-- Style body -->
@@ -489,7 +529,9 @@
 
 <style>
 	html, body{
-		font-family: 'Roboto', sans-serif;	}
+		font-family: 'Open Sans';
+		letter-spacing: 0.3px;
+		font-weight: 400}
 
 	.menuLeftWrap{
 		display: flex;
@@ -619,6 +661,9 @@
 		margin-top: 0px;
 		font-size: 22px;
 		color: rgb(10, 10, 10);
+	}
+	textarea {
+		width: 88%;
 	}
 	.author {
 		margin-top: 2em;
