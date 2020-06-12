@@ -390,6 +390,7 @@
 		padding-left: 15px;
 		margin-right: auto;
 		margin-left: auto;
+		background-image: url(images/bg.jpg)
 	}
 
 	.container_index {
@@ -403,7 +404,7 @@
 		margin: 15px;
 		background-color: #ddd;
 	}
-
+	.cardDiv{ height: 100%; width: 100%;}
 	.card_text {
 		margin: 0;
 		margin-top: auto;
@@ -663,8 +664,8 @@
 		color: rgb(10, 10, 10);
 	}
 	textarea {
-		width: 88%;
-	}
+		width: 88%; }
+	.photoMain { height: 300px; width: 300px;}
 	.author {
 		margin-top: 2em;
 		text-align: right;
