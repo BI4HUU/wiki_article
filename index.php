@@ -12,8 +12,9 @@ if (!$mysqli) {
 $query =  "SELECT * FROM article WHERE 1";
 	if ($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_assoc()) {
-			echo ("<a class='card' href='" . $row['linc'] . ".php'><div class='cardDiv' style='backgroundImage:url(" . $row['img'] . ")><h2 class='card_text'>" . $row['title'] . "</h2></div></a>");
-		}
+		?>
+			<a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $row['img'] ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
+		<?php }
 
 	$result->free();
 }

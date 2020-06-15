@@ -2,6 +2,9 @@
 	session_start(); 
 	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
 
+	global $title;
+	global $description;
+	global $keywords;
 
 	if ($_COOKIE["sessionkey"]) {
 		$sessionkey = $_COOKIE["sessionkey"];
@@ -18,7 +21,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title><?php echo $title ?></title>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
@@ -390,8 +393,15 @@
 		padding-left: 15px;
 		margin-right: auto;
 		margin-left: auto;
-		background-image: url(images/bg.jpg)
 	}
+	.container_article img {
+		display: flex;
+		width: 100%;
+	}
+	.container_article > * {
+		width: 100%;
+		margin-right: auto;
+		margin-left: auto; }
 
 	.container_index {
 		justify-content: center;
@@ -404,7 +414,9 @@
 		margin: 15px;
 		background-color: #ddd;
 	}
-	.cardDiv{ height: 100%; width: 100%;}
+	.cardDiv{
+		display: flex; height: 100%; width: 100%;}
+
 	.card_text {
 		margin: 0;
 		margin-top: auto;
@@ -423,33 +435,43 @@
 
 	@media (min-width: 576px) {
 		.container {
-			max-width: 540px;
-		}
+			max-width: 540px; }
+		.container_article > * {
+			max-width: 540px; }
+
 	}
 	@media (min-width: 768px) {
 		.container {
 			max-width: 720px;
 		}
+		.container_article > * {
+			max-width: 720px; }
 	}
 	@media (min-width: 992px) {
 		.container {
 			max-width: 960px;
 		}
+		.container_article > * {
+			max-width: 960px; }
 	}
 	@media (min-width: 1200px) {
 		.container {
 			max-width: 1140px;
 		}
+		.container_article > * {
+			max-width: 1140px; }
 	}
 	@media (min-width: 1500px) {
 		.container {
 			max-width: 1330px;
 		}
+		.container_article > * {
+			max-width: 1330px; }
 	}
 
 </style>
 
- <!-- Style body -->
+<!-- Style body -->
 <style>
 	h3 {
 		margin-top: 2em;
@@ -579,6 +601,39 @@
 	header {
 		height: 70px;}
 
+	.head {
+		width: 100%;
+		max-width: 100%;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		z-index: -3; }
+	.head img {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		
+	}
+
+	.head .blekFone {
+		position: absolute;
+		z-index: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: rgba(8, 8, 8, 0.5);
+	}
+	.head h1 {
+		display: block;
+		text-align: center;
+		color: #fff;
+		padding: 15px;
+		width: 100%; }
+
 	.header_container > * {
 		margin-left: 18px;
 		margin-right: 18px;	}
@@ -590,6 +645,7 @@
 		justify-content: space-between;
 		align-items: center;
 		position: fixed;
+		z-index: 8;
 		background: #f3f3f3;
 		border-bottom: solid 1px rgb(219, 219, 219);	}
 	.logo_burger{
