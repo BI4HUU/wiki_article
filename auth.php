@@ -15,7 +15,7 @@
 		</div><br>
 		<div class="wrap_button">
 			<div class="button button_signIn" onClick="sendDataReg()" class="login-btn">Войти</div>
-			<a href="register.php">
+			<a style="margin-left: 15px;" href="register.php">
 				<div class="button button_signIn">Register</div>
 			</a>
 		</div>

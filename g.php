@@ -1,18 +1,18 @@
-<?php 
-$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
-if (!$mysqli) {
-	echo "Ошибка: Невозможно установить соединение с MySQL.";
-	exit;
-}
+<?php
+	include "connect.php";
+	$query =  "SELECT * FROM article WHERE 1";
+	$result = $mysqli->query($query);
+	$row = $result->fetch_assoc();
 
+	global $title;       $title = "";
+	global $description; $description = "";
+	global $keywords;    $keywords = "";
 
-$query =  "SELECT * FROM article WHERE 1";
-$result = $mysqli->query($query);
-$row = $result->fetch_assoc();
+	include "header.php";
+
 $text1 = <<<'HEREDOC'
 <?php
-	$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
-
+	include "connect.php";
 	$query =  "SELECT * FROM article WHERE id_article=
 HEREDOC;
 
@@ -20,6 +20,7 @@ $text2 = <<<'HEREDOC2'
 ";
 	$result = $mysqli->query($query);
 	$row = $result->fetch_assoc();
+
 	global $title;
 	$title = $row['title'];
 	global $description;

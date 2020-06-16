@@ -58,8 +58,11 @@ include "header.php";
 		XHR.send( `&tel=${ tel }&confirm=${ confirm }&full_name=${ full_name }` );
 		XHR.responseType = 'text';
 		XHR.onload = function() {
-			document.getElementById('mesegesCalbeack').innerText = XHR.response;
-			document.location.href = "/create.php";
+			if(XHR.response == "False code!") {
+				document.getElementById('mesegesCalbeack').innerText = XHR.response;
+			} else {
+				document.location.href = "/create.php";
+			};
 		};
 }
 </script>

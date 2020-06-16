@@ -1,6 +1,5 @@
 <?php
-session_start();
-$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
 
 $tel = $_POST['tel'];
 
@@ -16,8 +15,7 @@ function generate_pass($number) {
 
 $confirmNumber =  generate_pass(4);
 
-$res = $connect->query("SELECT * FROM users WHERE `tel` = '$tel'");
-
+$res = $mysqli->query("SELECT * FROM users WHERE `tel` = '$tel'");
 $row = $res->fetch_assoc();
 
 $test = $row['tel'];

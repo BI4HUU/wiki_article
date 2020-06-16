@@ -1,6 +1,6 @@
 <?php
-session_start();
-$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+	session_start();
+	include "connect.php";
 
 $tel = $_POST['tel'];
 

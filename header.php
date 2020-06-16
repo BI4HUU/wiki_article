@@ -1,18 +1,18 @@
-<?php 
-	session_start(); 
-	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+<?php
 
+	session_start();
 	global $title;
 	global $description;
 	global $keywords;
-
-	if ($_COOKIE["sessionkey"]) {
-		$sessionkey = $_COOKIE["sessionkey"];
-		$_SESSION['sessionkey'] = $sessionkey;
-		$res = $connect->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
-		$row = $res->fetch_assoc();
-		$_SESSION['full_name'] = $row["name"];
-	};
+	$_SESSION['sessionkey'] = $_COOKIE["sessionkey"];
+	$_SESSION['sessionname'] = $_COOKIE["sessionname"];
+	$_SESSION['tel'] = $row['tel'];
+	$_SESSION['full_name'] = $row['name'];
+	// if ($sessionkey) {
+	// 	$res = $connect->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
+	// 	$row = $res->fetch_assoc();
+	// 	$_SESSION['full_name'] = $row["name"];
+	// };
 
 ?>
 <!DOCTYPE html>
@@ -22,6 +22,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $title ?></title>
+	<meta name="description" content="<?php echo $description ?>">
+	<meta name="keywords" content="<?php echo $keywords ?>">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
@@ -47,20 +49,15 @@
 			<?php
 				if ($_COOKIE["sessionkey"]) {
 			?>
-						<div class="button button_signIn">Log Out</div>
-					<?php
-				} else {
-			?>
+				<div class="button button_signIn">Log Out</div>
+			<?php } else { ?>
 				<a href="auth.php">
 					<div class="button button_signIn">Sign In</div>
 				</a>
-			<?php
-				}
-			?>
+			<?php } ?>
 
 		</div>
 	</div>
-	<div> <?php echo  $_SESSION['sessionkey']; ?> . . . <?php  echo $_SESSION['full_name']; ?> </div>
 </header>
 <div class="menuLeftWrap">
 	<main class="menuLeft">

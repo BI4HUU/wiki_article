@@ -5,7 +5,7 @@
 		exit;
 	}
 
-	$query =  "SELECT * FROM article WHERE 1";
-	$result = $mysqli->query($query);
-	$row = $result->fetch_assoc();
+	// $query =  "SELECT * FROM article WHERE 1";
+	// $result = $mysqli->query($query);
+	// $row = $result->fetch_assoc();
 ?>

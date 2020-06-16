@@ -1,7 +1,6 @@
 <?php
 	session_start(); 
-	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
-
+	include "connect.php";
 	if( isset( $_POST['my_file_upload'] ) ){  
 		// ВАЖНО! тут должны быть все проверки безопасности передавемых файлов и вывести ошибки если нужно
 

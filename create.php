@@ -1,5 +1,6 @@
-<?php session_start(); 
-?>
+<?php session_start();
+	if (!$_COOKIE["sessionkey"]) {
+		header("Location: /register.php"); exit; } ?>
 
 <!DOCTYPE html>
 
@@ -9,21 +10,32 @@
 	<div id="wrap_gen">
 		<!-- <h4>Keywords</h4> -->
 		<textarea id="link" linc placeholder="linc" tabindex cols rows ></textarea>
-		<input class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
-		<a href="#" class="upload_photo_main button">Загрузить файлы</a>
+		<div class="wrap_choose">
+			<input class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
+			<a href="#" class="upload_photo_main button">Загрузить файлы</a>
+		</div>
+			<textarea category id="category" placeholder="Category" tabindex cols rows="1" ></textarea>
 		<textarea keywords placeholder="Keywords" tabindex cols rows ></textarea>
 		<!-- <h4>Description</h4> -->
 		<textarea description placeholder="Description" tabindex cols rows ></textarea>
 		<!-- <h4>Title</h4> -->
-		<textarea title id="title" placeholder="Title" tabindex cols rows ></textarea>
-		<input class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
-		<a href="#" class="upload_photo_head button">Загрузить файлы</a>
+		<textarea title id="title" placeholder="Title" tabindex cols rows="1" ></textarea>
+		<div class="wrap_choose">
+			<input class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
+			<a href="#" class="upload_photo_head button">Загрузить файлы</a>
+		</div>
 
-		<div class="ajax-reply"></div>
+		<div ck id="editor">
+		</div>
+
 	</div>
-	<button onclick="AddParagraph()">Add Paragraph</button>
+	<div class="ajax-reply"></div>
+
+
+	<!-- <button onclick="AddParagraph()">Add Paragraph</button>
 	<button onclick="AddHeading()">Add Heading</button>
 	<button onclick="AddChoose()">Add Photo</button>
+	<button onclick="AddHTML()">Add HTML</button> -->
 	<button onclick="Generate()">End</button>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -207,6 +219,7 @@ var title;
 var name = 'nameTest';
 var description;
 var keywords;
+var category;
 function Generate() {
 	for (var i = 0; i < textarea.length; i++) {
 
@@ -224,6 +237,10 @@ function Generate() {
 
 		if (textarea[i].hasAttribute('title')) {
 			title = textarea[i].value;
+		}
+
+		if (textarea[i].hasAttribute('category')) {
+			category = textarea[i].value;
 		}
 
 		if (textarea[i].hasAttribute('img')) {
@@ -251,7 +268,7 @@ function Generate() {
 		const XHR = new XMLHttpRequest();
 		XHR.open( 'POST', 'addarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-		XHR.send( `body=${ sendDataHTML }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&name=${name }&img=${linkPhotoMain}&img_head=${linkPhotoHead}` );
+		XHR.send( `body=${ sendDataHTML }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&name=${name }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category${category}` );
 		XHR.onload = function() {
 				document.location.href = "/g.php";
 			};
@@ -303,6 +320,12 @@ function AddHeading() {
 	wrap_gen.append(pp)
 }
 
+</script>
+
+<script><?php include "ckeditor.js";  ?></script>
+<script>
+	ClassicEditor.create(document.querySelector( '#editor' ));
+	// ClassicEditor.create(document.querySelector( '#editor2' ));
 </script>
 
 </section>
