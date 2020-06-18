@@ -10,36 +10,39 @@
 	<div id="wrap_gen">
 		<!-- <h4>Keywords</h4> -->
 		<textarea id="link" linc placeholder="linc" tabindex cols rows ></textarea>
-		<div class="wrap_choose">
+		<div id="wrap_chooseMain">
 			<input class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<a href="#" class="upload_photo_main button">Загрузить файлы</a>
 		</div>
 			<textarea category id="category" placeholder="Category" tabindex cols rows="1" ></textarea>
-		<textarea keywords placeholder="Keywords" tabindex cols rows ></textarea>
+		<textarea keywords placeholder="Keywords" tabindex cols rows="1" ></textarea>
 		<!-- <h4>Description</h4> -->
-		<textarea description placeholder="Description" tabindex cols rows ></textarea>
+		<textarea description placeholder="Description" tabindex cols rows="1" ></textarea>
 		<!-- <h4>Title</h4> -->
 		<textarea title id="title" placeholder="Title" tabindex cols rows="1" ></textarea>
-		<div class="wrap_choose">
+		<div id="wrap_chooseHead">
 			<input class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<a href="#" class="upload_photo_head button">Загрузить файлы</a>
 		</div>
 
-		<div ck id="editor">
-		</div>
+		<div name="editor1" id="editor1"></div>
 
 	</div>
 	<div class="ajax-reply"></div>
 
-
+	<button style="margin:20px auto;display: block;" class="button button_signIn" onclick="Generate()">End</button>
 	<!-- <button onclick="AddParagraph()">Add Paragraph</button>
 	<button onclick="AddHeading()">Add Heading</button>
-	<button onclick="AddChoose()">Add Photo</button>
-	<button onclick="AddHTML()">Add HTML</button> -->
-	<button onclick="Generate()">End</button>
+	<button onclick="AddHTML()">Add HTML</button>
+	<button onclick="AddChoose()">Add Photo</button> -->
+
+	<script src="ckeditor/ckeditor.js"></script>
+	<script src="ckfinder/ckfinder.js"></script>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>CKEDITOR.replace( 'editor1' );</script>
 <script>
+	setTimeout(function(){ cke_1_contents.style.height = "555px" }, 1000);
 var linkPhotoMain = '';
 var linkPhotoHead = '';
 var files; // переменная. будет содержать данные файлов
@@ -89,6 +92,7 @@ $('.upload_photo_main').on( 'click', function( event ){
 				img.setAttribute('src', linkPhotoMain);
 				img.setAttribute('class', 'photoMain');
 				document.getElementById("link").after(img);
+				document.getElementById("wrap_chooseMain").remove();
 			}
 			// ошибка
 			else {
@@ -141,6 +145,7 @@ $('.upload_photo_head').on( 'click', function( event ){
 				img.setAttribute('src', linkPhotoHead);
 				img.setAttribute('class', 'photoHead');
 				document.getElementById("title").before(img);
+				document.getElementById("wrap_chooseHead").remove();
 			}
 			// ошибка
 			else {
@@ -187,17 +192,18 @@ function upload_files() {
 			if( typeof respond.error === 'undefined' ){
 				// выведем пути загруженных файлов в блок '.ajax-reply'
 				var files_path = respond.files;
-				var html = '';
+				var linkPhoto = '';
 				$.each( files_path, function( key, val ){
-					html += val;
+					linkPhoto += val;
+					linkPhoto = linkPhoto.substr(38);
 				} )
 				var img = document.createElement("img")
-				img.setAttribute('src', html.substr(38));
-				wrap_gen.append(img)
-				var imgTextA = document.createElement("textarea");
-				imgTextA.setAttribute('img', html.substr(38));
-				imgTextA.setAttribute('style', 'display:none');
-				wrap_gen.append(imgTextA);
+				img.setAttribute('src', linkPhoto);
+				img.setAttribute('class', 'photo');
+				var textareaimg = document.createElement("textarea")
+				textareaimg.setAttribute('img', linkPhoto);
+				document.getElementById("wrap_gen").append(textareaimg);
+				document.getElementById("wrap_gen").append(img);
 			}
 			// ошибка
 			else {
@@ -249,26 +255,27 @@ function Generate() {
 			sendDataHTML += imgBlock.outerHTML;
 		}
 
-		if (textarea[i].hasAttribute('paragraph')) {
-			var el = document.createElement("p")
-			el.innerHTML = textarea[i].value;
-			sendDataHTML += el.outerHTML;
-		}
+		// if (textarea[i].hasAttribute('paragraph')) {
+		// 	var el = document.createElement("p")
+		// 	el.innerHTML = textarea[i].value;
+		// 	sendDataHTML += el.outerHTML;
+		// }
 
-		if (textarea[i].hasAttribute('heading')) {
-			var el = document.createElement("h3")
-			el.innerText = textarea[i].value;
-			sendDataHTML += el.outerHTML;
-		}
+		// if (textarea[i].hasAttribute('heading')) {
+		// 	var el = document.createElement("h3")
+		// 	el.innerText = textarea[i].value;
+		// 	sendDataHTML += el.outerHTML;
+		// }
 	}
 
 	const btn = document.querySelector('button');
-
+	
+	var DataHTML_CK = CKEDITOR.instances.editor1.getData();
 	function sendData() {
 		const XHR = new XMLHttpRequest();
 		XHR.open( 'POST', 'addarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-		XHR.send( `body=${ sendDataHTML }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&name=${name }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category${category}` );
+		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category${category}` );
 		XHR.onload = function() {
 				document.location.href = "/g.php";
 			};
@@ -302,30 +309,24 @@ function AddChoose() {
 }
 
 function AddParagraph() {
-	var pp = document.createElement("textarea")
+	var pp = document.createElement("textarea");
 	pp.setAttribute('paragraph', '');
 	pp.setAttribute('placeholder', 'Paragraph');
 	pp.setAttribute('tabindex', '');
 	pp.setAttribute('cols', '');
 	pp.setAttribute('rows', '');
-	wrap_gen.append(pp)
+	wrap_gen.append(pp);
 }
 function AddHeading() {
-	var pp = document.createElement("textarea")
+	var pp = document.createElement("textarea");
 	pp.setAttribute('heading', '');
 	pp.setAttribute('placeholder', 'Heading');
 	pp.setAttribute('tabindex', '');
 	pp.setAttribute('cols', '');
 	pp.setAttribute('rows', '');
-	wrap_gen.append(pp)
+	wrap_gen.append(pp);
 }
 
-</script>
-
-<script><?php include "ckeditor.js";  ?></script>
-<script>
-	ClassicEditor.create(document.querySelector( '#editor' ));
-	// ClassicEditor.create(document.querySelector( '#editor2' ));
 </script>
 
 </section>

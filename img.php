@@ -1,11 +1,9 @@
 <?php
-	session_start(); 
-	include "connect.php";
-	if( isset( $_POST['my_file_upload'] ) ){  
+	session_start();
+	$connect = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+	if( isset( $_POST['my_file_upload'] ) ){
 		// ВАЖНО! тут должны быть все проверки безопасности передавемых файлов и вывести ошибки если нужно
-
 		$uploaddir = './uploads'; // . - текущая папка где находится submit.php
-
 		// cоздадим папку если её нет
 		if( ! is_dir( $uploaddir ) ) mkdir( $uploaddir, 0777 );
 
@@ -21,7 +19,6 @@
 				$done_files[] = realpath( "$uploaddir/$file_name" );
 			}
 		}
-
 		$data = $done_files ? array('files' => $done_files ) : array('error' => 'Ошибка загрузки файлов.');
 if ($done_files) {
 	# code...
