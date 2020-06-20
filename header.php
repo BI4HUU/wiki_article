@@ -1,13 +1,11 @@
 <?php
-
-	session_start();
 	global $title;
 	global $description;
 	global $keywords;
-	$_SESSION['sessionkey'] = $_COOKIE["sessionkey"];
-	$_SESSION['sessionname'] = $_COOKIE["sessionname"];
-	$_SESSION['tel'] = $row['tel'];
-	$_SESSION['full_name'] = $row['name'];
+	// $_SESSION['sessionkey'] = $_COOKIE["sessionkey"];
+	// $_SESSION['sessionname'] = $_COOKIE["sessionname"];
+	// $_SESSION['tel'] = $row['tel'];
+	// $_SESSION['full_name'] = $row['name'];
 	// if ($sessionkey) {
 	// 	$res = $connect->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
 	// 	$row = $res->fetch_assoc();
@@ -49,7 +47,9 @@
 			<?php
 				if ($_COOKIE["sessionkey"]) {
 			?>
-				<div class="button button_signIn">Log Out</div>
+				<a href="index.php?logout=logout">
+					<div class="button button_signIn">Log Out</div>
+				</a>
 			<?php } else { ?>
 				<a href="auth.php">
 					<div class="button button_signIn">Sign In</div>
@@ -61,6 +61,7 @@
 </header>
 <div class="menuLeftWrap">
 	<main class="menuLeft">
+		<a href="#" rel="noreferrer noopener"><?php echo $_COOKIE["sessionname"] ?></a>
 		<a href="#" rel="noreferrer noopener">О приложении</a>
 		<a href="#" rel="noreferrer noopener">Контакты</a>
 		<a href="#" rel="noreferrer noopener">Руководство по предоставлению персональных данных</a>
@@ -687,20 +688,24 @@
 		margin-right: 12px;	}
 	.button{
 		display: inline-block;
-		padding: 15px 35px;
-		border: none;
+		padding: 12px 32px;
 		border-radius: 4px;
 		font-size: 18px;
 		font-weight: 500;
 		white-space: nowrap;
 		cursor: pointer;	}
 	.button_signIn{
+		border: 2px #ff6a00 solid;
+		color: #ff6a00;	}
+	.button_signIn:hover{
 		background: #ff6a00;
-		color: #ffffff;	}
+		color: #ffffff;
+
+	}
 
 	.menu{
 		display: flex;
-		align-items: center;	}
+		align-items: center; }
 	.menu_item{
 		font-size: 18px;
 		font-weight: 500;

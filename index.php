@@ -1,6 +1,13 @@
 <?php
 	session_start();
+
 	include "connect.php";
+
+	if($_GET["logout"]){
+		session_abort ();
+		setcookie("sessionkey", 'sessionkey', time()-1);
+		setcookie("sessionname", 'name', time()-1);
+	};
 
 	global $title;       $title = "";
 	global $description; $description = "";

@@ -1,5 +1,8 @@
 <?php
-include "header.php";
+	global $title;
+	global $description;
+	global $keywords;
+	include "header.php";
 ?>
 <section class="container">
 <form>
@@ -27,19 +30,15 @@ include "header.php";
 	<?php  ?>
 </form>
 
-<fb:login-button 
-  scope="public_profile,email"
-  onlogin="checkLoginState();">
+<fb:login-button
+	scope="public_profile,email"
+	onlogin="checkLoginState();">
 </fb:login-button>
-<div id="mesegesCalbeack"></div>
 </section>
 
 
 <script>
-	function statusChangeCallback(response) {
 
-		console.dir(response)
-	}
 	window.fbAsyncInit = function() {
 		FB.init({
 			appId      : '2973051456096728',
@@ -59,35 +58,36 @@ include "header.php";
 		js.src = "https://connect.facebook.net/en_US/sdk.js";
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
-	
-
-FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-});
 
 FB.ui({
-  method: 'share',
-  href: 'https://developers.facebook.com/docs/'
+	method: 'share',
+	href: 'https://developers.facebook.com/docs/'
 }, function(response){});
 
 FB.login(function(response) {
-    if (response.authResponse) {
-     console.log('Welcome!  Fetching your information.... ');
-     FB.api('/me', function(response) {
-       console.log('Good to see you, ' + response.name + '.');
-     });
-    } else {
-     console.log('User cancelled login or did not fully authorize.');
-    }
+	if (response.authResponse) {
+		console.log('Welcome!  Fetching your information.... ');
+		FB.api('/me', function(response) {
+			console.log('Good to see you, ' + response.name + '.');
+		});
+	} else {
+		console.log('User cancelled login or did not fully authorize.');
+	}
 });
 
 function checkLoginState() {
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+	FB.getLoginStatus(function(response) {
+		if(response.status == 'connected'){
+			const XHRfb = new XMLHttpRequest();
+			XHRfb.open( 'POST', 'fb.php' );
+			XHRfb.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+			XHRfb.send( `&token=${ response.authResponse.accessToken }&id=${ response.authResponse.userID }` );
+			// document.location.href = "/create.php";
+		};
+	});
 }
 </script>
-
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 <script>
 
