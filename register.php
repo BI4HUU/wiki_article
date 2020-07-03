@@ -13,7 +13,7 @@
 	<input type="tel" id="tel" name="tel" placeholder="+38 098 765 43 21"><br>
 	<div class="wrap_button" style="margin-top: 10px;" >
 
-		<div class="button button_signIn register-btn" onClick="sendData()">Confirm</div>
+		<div class="button button_signIn register-btn" onClick="sendData()">Проверить</div>
 		<input style="width: 120px; margin-left: 15px; margin-top: 20px;" name="confirm" id="confirm" placeholder="Code in SMS">
 
 	</div>
@@ -24,7 +24,7 @@
 	<div id="wrap_button">
 		<div class="button button_signIn" onClick="sendDataReg()" class="register-btn">Зарегистрироваться</div>
 		<a href="auth.php">
-				<div class="button button_signIn">Auth</div>
+				<div class="button button_signIn">Вход</div>
 		</a>
 	</div>
 	<?php  ?>

@@ -10,13 +10,13 @@
 		<input type="tel" id="tel" placeholder="+38 098 765 43 21"><br>
 		<!-- <label>Пароль</label><br> -->
 		<div class="wrap_button" style="margin-top: 10px;" >
-			<div class="button button_signIn register-btn" onClick="sendData()">Confirm</div>
+			<div class="button button_signIn register-btn" onClick="sendData()">Проверить</div>
 			<input style="width: 120px; margin-left: 15px; margin-top: 20px;" name="confirm" id="confirm" placeholder="Code in SMS">
 		</div><br>
 		<div class="wrap_button">
 			<div class="button button_signIn" onClick="sendDataReg()" class="login-btn">Войти</div>
 			<a style="margin-left: 15px;" href="register.php">
-				<div class="button button_signIn">Register</div>
+				<div class="button button_signIn">Зарегистрироваться</div>
 			</a>
 		</div>
 	</form>

@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+	include "connect.php";
 
 $tel = $_POST['tel'];
 
@@ -55,6 +55,4 @@ function send($host, $port, $login, $password, $phone, $text, $sender = false, $
 	list($other, $responseBody) = explode("\r\n\r\n", $response, 2);
 	return $responseBody;
 }
-
-
  ?>

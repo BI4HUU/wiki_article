@@ -1,20 +1,21 @@
 <?php
 	session_start();
-
-	include "connect.php";
-
 	if($_GET["logout"]){
 		session_abort ();
 		setcookie("sessionkey", 'sessionkey', time()-1);
 		setcookie("sessionname", 'name', time()-1);
+		header('Location: /index.php');
+		exit;
 	};
+	include "connect.php";
+
 
 	global $title;       $title = "";
 	global $description; $description = "";
 	global $keywords;    $keywords = "";
 
 	include "header.php" ?>
-	
+
 <section class="container container_index row">
 <?php
 $query =  "SELECT * FROM article WHERE 1";
@@ -29,4 +30,14 @@ $query =  "SELECT * FROM article WHERE 1";
 ?>
 
 </section>
-<?php include "footer.php" ?>
+<?php
+	echo 'full_name - ';
+	echo $_SESSION['full_name'];
+	echo '|||sessionkey - ';
+	echo $_SESSION['sessionkey'];
+	echo '|||_COOKIEkey - ';
+	echo $_COOKIE["sessionkey"];
+	echo '|||_COOKIEname - ';
+	echo $_COOKIE["sessionname"];
+	echo '|||';
+	include "footer.php" ?>
