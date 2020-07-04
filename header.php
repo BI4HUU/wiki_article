@@ -741,6 +741,9 @@
 		display: block;
 		margin: 15px auto 10px auto;
 	}
+
+	#chooseHead, #chooseMain{ display: none;}
+
 	#wrap_chooseHead img{
 		width: 100%;}
 

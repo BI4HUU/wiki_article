@@ -17,16 +17,16 @@ include "header.php"; ?>
 	<div id="wrap_gen">
 		<textarea id="link" linc placeholder="linc" tabindex cols rows ></textarea>
 		<div id="wrap_chooseMain">
-			<input onchange="change(this)" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
-			<a href="#" class="upload_photo_main button">Загрузить файлы</a>
+			<input onchange="change_main(this)" id="chooseMain" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
+			<div class="upload_photo_main button"><label for="chooseMain">Загрузить фото превю</label></div>
 		</div>
 		<textarea category id="category" placeholder="Category" tabindex cols rows="1" ></textarea>
 		<textarea keywords placeholder="Keywords" tabindex cols rows="1" ></textarea>
 		<textarea description placeholder="Description" tabindex cols rows="1" ></textarea>
 		<textarea title id="title" placeholder="Title" tabindex cols rows="1" ></textarea>
 		<div id="wrap_chooseHead">
-			<input onchange="change(this)" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
-			<a href="#" class="upload_photo_head button">Загрузить файлы</a>
+			<input onchange="change_head(this)" id="chooseHead" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
+			<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон</label></div>
 		</div>
 
 		<div name="editor1" id="editor1"></div>
@@ -56,65 +56,17 @@ var files; // переменная. будет содержать данные �
 	// $('.photo_main').on('change', function(){
 	// 	files = this.files;
 	// });
-	function change(file) {
-		files = file.files;
-	}
+function change_main(file) {
+	files = file.files;
+	upload_photo_main( event );
+}
+function change_head(file) {
+	files = file.files;
+	upload_photo_head( event );
+}
 
 	// обработка и отправка AJAX запроса при клике на кнопку upload_files
-$('.upload_photo_main').on( 'click', function( event ){
-	event.stopPropagation(); // остановка всех текущих JS событий
-	event.preventDefault();  // остановка дефолтного события для текущего элемента - клик для <a> тега
-	// ничего не делаем если files пустой
-	if( typeof files == 'undefined' ) return;
-	// создадим объект данных формы
-	var data = new FormData();
-	// заполняем объект данных файлами в подходящем для отправки формате
-	$.each( files, function( key, value ){
-		data.append( key, value );
-	});
-	// добавим переменную для идентификации запроса
-	data.append( 'my_file_upload', 1 );
-	// AJAX запрос
-	$.ajax({
-		url         : 'imgmain.php',
-		type        : 'POST', // важно!
-		data        : data,
-		cache       : false,
-		dataType    : 'json',
-		// отключаем обработку передаваемых данных, пусть передаются как есть
-		processData : false,
-		// отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
-		contentType : false,
-		// функция успешного ответа сервера
-		success     : function( respond, status, jqXHR ){
-			if( typeof respond.error === 'undefined' ){
-				// выведем пути загруженных файлов в блок '.ajax-reply'
-				var files_path = respond.files;
-				linkPhotoMain = '';
-				$.each( files_path, function( key, val ){
-					linkPhotoMain += val;
-					linkPhotoMain = linkPhotoMain.substr(38);
-				} )
-				var a_b = document.createElement("div");
-				a_b.setAttribute('class', 'adminBtn');
-				a_b.innerHTML = "<div onclick='delPhotoMain()' class='button button_signIn'>Delete</div>";
-				wrap_chooseMain.append(a_b);
-				var img = document.createElement("img");
-				img.setAttribute('src', linkPhotoMain);
-				img.setAttribute('class', 'photoMain');
-				wrap_chooseMain.append(img);
-				wrap_chooseMain.getElementsByClassName("button")[0].remove();
-				wrap_chooseMain.getElementsByClassName("choose")[0].remove();
-			}
-			else {
-				console.log('ОШИБКА: ' + respond.data );
-			}
-		},
-		error: function( jqXHR, status, errorThrown ){
-			console.log( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
-		}
-	});
-});
+
 
 function upload_photo_main( event ){
 	// event.stopPropagation(); // остановка всех текущих JS событий
@@ -171,62 +123,6 @@ function upload_photo_main( event ){
 	});
 };
 
-$('.upload_photo_head').on( 'click', function( event ){
-	event.stopPropagation(); // остановка всех текущих JS событий
-	event.preventDefault();  // остановка дефолтного события для текущего элемента - клик для <a> тега
-	// ничего не делаем если files пустой
-	if( typeof files == 'undefined' ) return;
-	// создадим объект данных формы
-	var data = new FormData();
-	// заполняем объект данных файлами в подходящем для отправки формате
-	$.each( files, function( key, value ){
-		data.append( key, value );
-	});
-	// добавим переменную для идентификации запроса
-	data.append( 'my_file_upload', 1 );
-	// AJAX запрос
-	$.ajax({
-		url         : 'imghead.php',
-		type        : 'POST', // важно!
-		data        : data,
-		cache       : false,
-		dataType    : 'json',
-		// отключаем обработку передаваемых данных, пусть передаются как есть
-		processData : false,
-		// отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
-		contentType : false,
-		// функция успешного ответа сервера
-		success     : function( respond, status, jqXHR ){
-			if( typeof respond.error === 'undefined' ){
-				var files_path = respond.files;
-				linkPhotoHead = '';
-				$.each( files_path, function( key, val ){
-					linkPhotoHead += val;
-					linkPhotoHead = linkPhotoHead.substr(38);
-				} );
-				var img = document.createElement("img");
-				var a_b = document.createElement("div");
-				a_b.setAttribute('class', 'adminBtn');
-				a_b.innerHTML = "<div onclick='delPhotoHead()' class='button button_signIn'>Delete</div>";
-				wrap_chooseHead.append(a_b);
-
-				img.setAttribute('src', linkPhotoHead);
-				img.setAttribute('class', 'photoHead');
-				wrap_chooseHead.append(img);
-				wrap_chooseHead.getElementsByClassName("button")[0].remove();
-				wrap_chooseHead.getElementsByClassName("choose")[0].remove();
-			}
-			else {
-				console.log('ОШИБКА: ' + respond.data );
-			}
-		},
-		error: function( jqXHR, status, errorThrown ){
-			console.log( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
-		}
-	});
-});
-
-
 function upload_photo_head(event){
 	// console.log(event);
 	// event.stopPropagation(); остановка всех текущих JS событий
@@ -256,6 +152,7 @@ function upload_photo_head(event){
 		success     : function( respond, status, jqXHR ){
 			if( typeof respond.error === 'undefined' ){
 				var files_path = respond.files;
+				linkPhotoHead = '';
 				$.each( files_path, function( key, val ){
 					linkPhotoHead += val;
 					linkPhotoHead = linkPhotoHead.substr(38);
@@ -270,7 +167,6 @@ function upload_photo_head(event){
 				wrap_chooseHead.append(a_b);
 				wrap_chooseHead.getElementsByClassName("button")[0].remove();
 				wrap_chooseHead.getElementsByClassName("choose")[0].remove();
-				linkPhotoHead = '';
 			}
 			else {
 				console.log('ОШИБКА: ' + respond.data );
@@ -289,18 +185,16 @@ function delPhotoMain() {
 	wrap_chooseMain.getElementsByClassName("adminBtn")[0].remove();
 
 	var Choose = document.createElement("input");
-	var ChooseA = document.createElement("a");
-	Choose.setAttribute('choose', '');
+	var ChooseA = document.createElement("div");
+	Choose.setAttribute('id', 'chooseMain');
 	Choose.setAttribute('class', 'choose chooseMain photo_main');
-	Choose.setAttribute('onchange', 'change(this)');
-	Choose.setAttribute('value', 'Choose main photo');
+	Choose.setAttribute('onchange', 'change_main(this)');
 	Choose.setAttribute('type', 'file');
 	Choose.setAttribute('multiple', 'multiple');
 	Choose.setAttribute('accept', 'image/jpg');
 	ChooseA.setAttribute('class', 'upload_photo_head button');
-	ChooseA.setAttribute('onclick', 'upload_photo_main(this)');
-	ChooseA.setAttribute('href', '#');
-	ChooseA.innerText = 'Загрузить файлы';
+	// ChooseA.setAttribute('onclick', 'upload_photo_main(this)');
+	ChooseA.innerHTML = '<label for="chooseMain">Загрузить фото превю</label>';
 
 	wrap_chooseMain.append(Choose);
 	wrap_chooseMain.append(ChooseA);
@@ -311,18 +205,15 @@ function delPhotoHead() {
 	wrap_chooseHead.getElementsByClassName("adminBtn")[0].remove();
 
 	var Choose = document.createElement("input");
-	var ChooseA = document.createElement("a");
-	Choose.setAttribute('choose', '');
+	var ChooseA = document.createElement("div");
+	Choose.setAttribute('id', 'chooseHead');
 	Choose.setAttribute('class', 'choose chooseMain photo_main');
-	Choose.setAttribute('onchange', 'change(this)');
-	Choose.setAttribute('value', 'Choose main photo');
+	Choose.setAttribute('onchange', 'change_head(this)');
 	Choose.setAttribute('type', 'file');
 	Choose.setAttribute('multiple', 'multiple');
 	Choose.setAttribute('accept', 'image/jpg');
 	ChooseA.setAttribute('class', 'upload_photo_head button');
-	ChooseA.setAttribute('onclick', 'upload_photo_head(this)');
-	ChooseA.setAttribute('href', '#');
-	ChooseA.innerText = 'Загрузить файлы';
+	ChooseA.innerHTML = '<label for="chooseHead">Загрузить фото превю</label>';
 
 	wrap_chooseHead.append(Choose);
 	wrap_chooseHead.append(ChooseA);
