@@ -30,14 +30,4 @@ $query =  "SELECT * FROM article WHERE 1";
 ?>
 
 </section>
-<?php
-	echo 'full_name - ';
-	echo $_SESSION['full_name'];
-	echo '|||sessionkey - ';
-	echo $_SESSION['sessionkey'];
-	echo '|||_COOKIEkey - ';
-	echo $_COOKIE["sessionkey"];
-	echo '|||_COOKIEname - ';
-	echo $_COOKIE["sessionname"];
-	echo '|||';
-	include "footer.php" ?>
+<?php include "footer.php" ?>

@@ -13,20 +13,20 @@
 
 include "header.php"; ?>
 
-<section class="container"><?php  echo $_COOKIE["sessionname"]; echo ($_COOKIE["sessionkey"] . '|||'); echo $_SESSION['full_name']; echo $_SESSION['sessionkey']; ?>
+<section class="container">
 	<div id="wrap_gen">
-		<textarea id="link" linc placeholder="linc" tabindex cols rows ></textarea>
+		<textarea id="link" linc placeholder="Ссылка" tabindex cols rows ></textarea>
 		<div id="wrap_chooseMain">
 			<input onchange="change_main(this)" id="chooseMain" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_main button"><label for="chooseMain">Загрузить фото превю</label></div>
 		</div>
-		<textarea category id="category" placeholder="Category" tabindex cols rows="1" ></textarea>
-		<textarea keywords placeholder="Keywords" tabindex cols rows="1" ></textarea>
-		<textarea description placeholder="Description" tabindex cols rows="1" ></textarea>
-		<textarea title id="title" placeholder="Title" tabindex cols rows="1" ></textarea>
+		<textarea category id="category" placeholder="Категория" tabindex cols rows="1" ></textarea>
+		<textarea keywords placeholder="Ключевые слова" tabindex cols rows="1" ></textarea>
+		<textarea description placeholder="Краткое описание" tabindex cols rows="1" ></textarea>
+		<textarea title id="title" placeholder="Заголовок" tabindex cols rows="1" ></textarea>
 		<div id="wrap_chooseHead">
 			<input onchange="change_head(this)" id="chooseHead" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
-			<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон</label></div>
+			<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон заголовка</label></div>
 		</div>
 
 		<div name="editor1" id="editor1"></div>
@@ -304,6 +304,7 @@ function Generate() {
 		const XHR = new XMLHttpRequest();
 		XHR.open( 'POST', 'addarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+		DataHTML_CK = encodeURIComponent(DataHTML_CK);
 		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}` );
 		XHR.onload = function() {
 				document.location.href = "/g.php";

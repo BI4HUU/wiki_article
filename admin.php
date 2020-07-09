@@ -17,11 +17,11 @@
 		foreach ($arr as &$value) {
 			$resArt = $mysqli->query("SELECT * FROM `article` WHERE `id_article` = $value");
 			$rowArt = $resArt->fetch_assoc();
-			$h = $rowArt[`linc`];
-			$img = $rowArt[`img`];
+			$h = $rowArt['linc'];
+			$img = $rowArt['img'];
 			$titlea = $rowArt['title'];
 			echo ("<div class='card'>
-				<div class='cardDiv' style='background-image:url($img);'>
+				<div class='cardDiv' style='background-image:url(\"$img\");'>
 					<div class='adminBtn'>
 						<a class='button button_signIn' href='$h.php'>See</a>
 						<a class='button button_signIn' href='edit.php?edit=$value'>Redact</a>
