@@ -78,8 +78,9 @@
 				</a>
 			<?php } ?>
 		</div>
-		<?php if($_COOKIE["sessionname"]){echo ('<a href="admin.php" rel="noreferrer noopener">' . $_COOKIE["sessionname"] . '</a>');} ?>
-		<a href="#" rel="noreferrer noopener">О приложении</a>
+		<?php if($_COOKIE["name"]){echo ('<a href="admin.php" rel="noreferrer noopener">' . $_COOKIE["name"] . ' <span style="color: #666666">(Админка)</span> </a>');} ?>
+        <hr>
+        <a href="#" rel="noreferrer noopener">О приложении</a>
 		<a href="#" rel="noreferrer noopener">Контакты</a>
 		<a href="#" rel="noreferrer noopener">Руководство по предоставлению персональных данных</a>
 		<a href="#" rel="noreferrer noopener">Пользовательское соглашение</a>
@@ -442,6 +443,7 @@
 		display: flex; z-index: 1; position: relative; height: 100%; width: 100%;background-size: cover;}
 
 	.card_text {
+		font-size: 20px;
 		margin: 0;
 		margin-top: auto;
 		padding: 12px;
@@ -461,9 +463,8 @@
 		.container {
 			max-width: 540px; }
 		.container_article > * {
-			max-width: 540px; }
+			max-width: 540px; }}
 
-	}
 	@media (min-width: 768px) {
 		.container {
 			max-width: 720px;

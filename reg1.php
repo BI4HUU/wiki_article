@@ -26,6 +26,7 @@ if ($row['tel'] == $tel) {
 
 $mysqli->query("INSERT INTO `users`(`email`, `tel`, `name`, `password`, `code`) VALUES ('$tel', '$tel', 'name', 'pass','$confirmNumber')");
 
+
 $tel = "+" . $tel;
 echo send("api.smsfeedback.ru", 80, "arbitr1688", "Ama016880", $tel , $confirmNumber, "TEST-SMS");
 

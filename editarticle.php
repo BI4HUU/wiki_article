@@ -1,5 +1,5 @@
 <?php
-	session_start();
+//	session_start();
 
 	$id =          $_POST['id'];
 	$linc =        $_POST['linc'];
@@ -28,9 +28,10 @@
 	if ($_COOKIE["sessionkey"]) {
 		// $name = $_COOKIE['full_name'];
 		$sessionkey = $_COOKIE["sessionkey"];
+        $sessionname = $_COOKIE["sessionname"];
 
 		// $resUser = $mysqli->query("SELECT sessionkey, article FROM users WHERE sessionkey = '$sessionkey' AND  name = '$name'");
-		$resUser = $mysqli->query("SELECT sessionkey, article FROM users WHERE sessionkey = '$sessionkey'");
+		$resUser = $mysqli->query("SELECT sessionkey, article FROM users WHERE sessionkey = '$sessionkey' AND id_user = '$sessionname'");
 		$rowUser = $resUser->fetch_assoc();
 
 		if ($rowUser['sessionkey'] == $sessionkey) {

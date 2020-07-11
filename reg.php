@@ -1,5 +1,5 @@
 <?php
-	session_start();
+//	session_start();
 	$tel = $_POST['tel'];
 	$name = $_POST['full_name'];
 	// $pass = md5($_POST['password']);
@@ -23,11 +23,16 @@
 
 	if ($row['code'] == $code) {
 		$_session_key =  generate_session(40);
-		$mysqli->query("UPDATE `users` SET `name`='$name',`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = '$tel'");
-		$_SESSION['sessionkey'] = $_session_key;
-		$_SESSION['full_name'] = $name;
+		$mysqli->query("UPDATE `users` SET `name`='nametest',`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = '$tel'");
+
+//		$_SESSION['sessionkey'] = $_session_key;
+//		$_SESSION['full_name'] = $name;
+
+		setcookie("name", $name, time()+999999999);
+
 		setcookie("sessionkey", $_session_key, time()+999999999);
-		setcookie("sessionname", $name, time()+999999999);
+		setcookie("sessionname", $row['id_user'], time()+999999999);
+		setcookie("name", $name, time()+999999999);
 	} else {
 		die( "False code!" );
 	}

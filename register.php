@@ -24,7 +24,7 @@
 	<div id="wrap_button">
 		<div class="button button_signIn" onClick="sendDataReg()" class="register-btn">Зарегистрироваться</div>
 		<a href="auth.php">
-				<div class="button button_signIn">Вход</div>
+				<div style="border: 2px #bbb solid;color: #bbb;" class="button button_signIn">Вход</div>
 		</a>
 	</div>
 	<?php  ?>

@@ -1,12 +1,12 @@
-<?php session_start();
+<?php
+//session_start();
 
 	include "header.php";
 	include "connect.php";
 
 	if ($_COOKIE["sessionkey"]) {
-
-		// $name = $_SESSION['full_name'];
-		$sessionkey = $_COOKIE["sessionkey"];
+        $sessionkey = $_COOKIE["sessionkey"];
+        $sessionname = $_COOKIE["sessionname"];
 		$resUser = $mysqli->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
 		$rowUser = $resUser->fetch_assoc();
 		$str = $rowUser['article'];
