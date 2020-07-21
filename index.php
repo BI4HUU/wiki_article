@@ -1,14 +1,25 @@
 <?php
-	session_start();
+//	session_start();
+    $WHERE = 1;
+
 	if($_GET["logout"]){
 		session_abort ();
-		setcookie("sessionkey", 'sessionkey', time()-1);
-		setcookie("sessionname", 'name', time()-1);
+		setcookie("sessionkey", 'false', time()-1);
+        setcookie("sessionname", 'false', time()-1);
+        setcookie("name", 'false', time()-1);
 		header('Location: /index.php');
 		exit;
 	};
-	include "connect.php";
 
+    if($_GET["category"] == 'programs'){
+        $WHERE = "category = 'Programs'";
+    };
+
+    if($_GET["category"] == 'money'){
+        $WHERE = "category = 'Money'";
+    };
+
+	include "connect.php";
 
 	global $title;       $title = "";
 	global $description; $description = "";
@@ -18,7 +29,7 @@
 
 <section class="container container_index row">
 <?php
-$query =  "SELECT * FROM article WHERE 1";
+$query =  "SELECT * FROM article WHERE $WHERE";
 	if ($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_assoc()) {
 		?>

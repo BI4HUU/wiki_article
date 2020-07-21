@@ -31,3 +31,4 @@
     } else {
 
     };
+    header("/admin.php");

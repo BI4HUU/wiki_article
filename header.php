@@ -1,7 +1,8 @@
 <?php
 	global $title;
 	global $description;
-	global $keywords;
+    global $keywords;
+    global $menu_item_active;
 	// $_SESSION['sessionkey'] = $_COOKIE["sessionkey"];
 	// $_SESSION['sessionname'] = $_COOKIE["sessionname"];
 	// $_SESSION['tel'] = $row['tel'];
@@ -36,8 +37,8 @@
 			<div class="logo"><a href="/" rel="noreferrer noopener">LOGO</a></div>
 		</div>
 		<div class="menu">
-			<div class="menu_item menu_item1 menu_item_active">Trending</div>
-			<div class="menu_item menu_item2">Discover</div>
+			<a href="index.php" class="menu_item menu_item1 <?php if (!$menu_item_active) echo 'menu_item_active'; ?>">Trending</a>
+			<a href="category.php" class="menu_item menu_item2 <?php if ($menu_item_active) echo 'menu_item_active'; ?>">Discover</a>
 		</div>
 		<div class="auth_download" style="display: none;">
 			<a href="/create.php"  rel="noreferrer noopener">
@@ -402,7 +403,8 @@
 
 <!-- Bootstrap -->
 <style>
-
+    .w-100 {
+        width: 100%;}
 	.container {
 		width: 100%;
 		padding-right: 15px;
@@ -433,7 +435,8 @@
 		height: 300px;
 		width: 300px;
 		margin: 15px;
-		background-color: #ddd;}
+		background-color: #ddd;
+        text-decoration: none;}
 
 	@media (max-width: 360px) {
 		.card{
@@ -546,7 +549,8 @@
 		margin: 0 15px 0 0;
 	}
 
-	.wrap_button button{ margin-top: 10px;}
+    #wrap_button { margin-top: 15px;}
+    .wrap_button button{ margin-top: 10px;}
 	.wrap_button {
 		display: flex;
 		justify-content: center;
@@ -754,6 +758,7 @@
 		font-size: 18px;
 		font-weight: 500;
 		white-space: nowrap;
+        text-decoration: none;
 		cursor: pointer;	}
 	.button_signIn{
 		border: 2px #ff6a00 solid;
@@ -796,7 +801,7 @@
 		width: 88%; }
 	.photoMain { height: 300px; width: 300px;}
 	.author {
-		margin-top: 2em;
+        margin-left: auto;
 		text-align: right;
 		color: #444;}
 
@@ -853,6 +858,58 @@
 		height: 100%;
 		width: 100%;
 		background-color: rgba(33, 33, 33, 0.4);}
+
+    .categoryWrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        border: solid 1px #bbbbbb;
+        margin: 18px 0;
+    }
+    .category {
+        display: block;
+        padding: 10px 20px;
+        font-size: 20px;
+        width: 100%;
+        background-color: #bbbbbb;
+        text-decoration: none;
+        color: #222222;
+    }
+    .FB{ margin: auto; }
+
+    .bottom_article {
+        display: flex;
+        align-items: center;
+        margin-top: 2em; }
+
+    #like1 {
+        display: none;}
+    #like1, #like2 {
+        height: 30px;
+        width: 30px;}
+
+    .panel{
+        display: flex;
+        align-items: center;}
+
+    .likeWrap{height: 30px; margin-left: 15px}
+
+    .likeWrap:hover #like1{
+        display: block;}
+    .likeWrap:hover #like2{
+        display: none;}
+
+    .likeOk #like1{
+        display: block;}
+    .likeOk #like2{
+        display: none;}
+    .likeNumber{
+        margin-left: 10px;
+        font-size: 18px;
+        color: #333333;
+    }
+
 </style>
 <script>
 	var burger = document.getElementsByClassName("burger")[0];
@@ -866,4 +923,14 @@
 		menuLeftWrap.classList.toggle("menuLeft_active");
 		
 	}
+	function like(id_article) {
+        const XHR = new XMLHttpRequest();
+        XHR.open( 'POST', 'like.php' );
+        XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+        XHR.send( `id_article=${ id_article }` );
+        XHR.onload = function() {
+            document.getElementsByClassName('likeWrap')[0].classList.add("likeOk");
+        };
+
+    }
 </script>

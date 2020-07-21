@@ -307,8 +307,8 @@ function Generate() {
 		DataHTML_CK = encodeURIComponent(DataHTML_CK);
 		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}` );
 		XHR.onload = function() {
-				document.location.href = "/g.php";
-			};
+            document.location.href = "/g.php";
+        };
 	}
 	sendData()
 }
