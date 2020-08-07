@@ -1,6 +1,5 @@
 <?php
-//	session_start();
-
+    include "connect.php";
 	$linc = $_POST['linc'];
 	$title = $_POST['title'];
 	$img = $_POST['img'];
@@ -9,16 +8,21 @@
 	$description = $_POST['description'];
 	$keywords = $_POST['keywords'];
 	$category = $_POST['category'];
-	include "connect.php";
 
-		$sessionkey = $_COOKIE["sessionkey"];
-        $sessionname = $_COOKIE["sessionname"];
+	$sessionkey = $_COOKIE["sessionkey"];
+    $id_user = $_COOKIE["sessionname"];
 
-		$res = $mysqli->query("SELECT * FROM users WHERE sessionkey = '$sessionkey' AND id_user = '$sessionname'");
-		$row = $res->fetch_assoc();
-		$name = $row['name'];
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE id_user = ?");
+    $stmt->bind_param("s",  $id_user );
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $name = $row['name'];
 
-		if ($row['sessionkey'] == $sessionkey) {
+    if ( $row['block'] == '1' ) { die( "This number is blocked! Contact support." ); };
+    if ( intval( $row['false_password'] ) >= 5 ) { die( "False code! > 5 items" ); };
+
+		if ($row['sessionkey'] == strval($sessionkey)) {
 
 			$mysqli->query("INSERT INTO `article`(`linc`, `title`, `body`, `name`, `description`, `keywords`, `img`, `img_head`, `category`) VALUES ('$linc', '$title','$body','$name','$description','$keywords','$img','$img_head','$category')");
 			$id_article = $mysqli->insert_id;
@@ -27,22 +31,20 @@
 			$arr = json_decode($str);
 			$arr[] = $id_article;
 			$str2 = json_encode($arr);
-			$mysqli->query("UPDATE `users` SET `article` = '$str2' WHERE sessionkey = '$sessionkey' AND id_user = '$sessionname'");
-		}
-//    if (false) {
-//    if ($_SESSION['full_name']) {
-//		$name = $_SESSION['full_name'];
-//		$sessionkey = $_SESSION['sessionkey'];
-//		$mysqli->query("INSERT INTO `article`(`linc`, `title`, `body`, `name`, `description`, `keywords`, `img`, `img_head`, `category`) VALUES ('$linc', '$title','$body','$name','$description','$keywords','$img','$img_head','$category')");
-//		$id_article = $mysqli->insert_id;
-//
-//		$resUser = $mysqli->query("SELECT * FROM users WHERE sessionkey = '$sessionkey' AND  name = '$name'");
-//		$rowUser = $resUser->fetch_assoc();
-//		$str = $rowUser['article'];
-//		$arr = json_decode($str);
-//		$arr[] = $id_article;
-//		$str2 = json_encode($arr);
-//		$mysqli->query("UPDATE `users` SET `article` = '$str2' WHERE sessionkey = '$sessionkey' AND  name = '$name'");
-//	} else {
-//	};
+
+            $stmt3 = $mysqli->prepare("UPDATE `users` SET `article` = ? WHERE sessionkey = ? AND id_user = ?");
+            $stmt3->bind_param("sss", $str2, $sessionkey, $id_user );
+            $stmt3->execute();
+		} else {
+            $false_password = intval( $row['false_password'] );
+            $false_password++;
+            $stmt3 = $mysqli->prepare("UPDATE `users` SET `false_password`= ? WHERE `id_user` = ?");
+            $stmt3->bind_param("ss", $false_password,  $id_user);
+            $stmt3->execute();
+            header('Location: /register.php');
+            setcookie("sessionkey", 'false', time()-1);
+            setcookie("sessionname", 'false', time()-1);
+            setcookie("name", 'false', time()-1);
+            exit(); }
+
 ?>

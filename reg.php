@@ -1,13 +1,23 @@
 <?php
-//	session_start();
+	include "connect.php";
+
 	$tel = $_POST['tel'];
 	$name = $_POST['full_name'];
 	// $pass = md5($_POST['password']);
 	$code = $_POST['confirm'];
 
-	$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
-	$res = $mysqli->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
+	if ($code == '') { die( "Missed the code!" ); };
+
+	$stmt = $mysqli->prepare("SELECT * FROM users WHERE tel = ?");
+	$stmt->bind_param("s", $tel);
+	$stmt->execute();
+	$res = $stmt->get_result();
 	$row = $res->fetch_assoc();
+	if ( $row['block'] == '1' ) { die( "This number is blocked! Contact support." ); };
+	if ( intval( $row['false_password'] ) >= 5 ) { die( "False code! > 5 items" ); };
+	if ( intval( $row['ifcreate'] ) == 1  ) { die( "This number is already registered! Sign in or contact support." ); };
+
+//	$res = $mysqli->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
 
 	function generate_session($number) {
 		$arr = array('a','b','c','d','e','f','g','h','i','k','m','n','p','r','s','t','u','v','x','y','z','A','B','C','D','E','F','G','H','K','L',
@@ -23,8 +33,12 @@
 
 	if ($row['code'] == $code) {
 		$_session_key =  generate_session(40);
-		$mysqli->query("UPDATE `users` SET `name`='nametest',`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = '$tel'");
 
+		$stmt2 = $mysqli->prepare("UPDATE `users` SET `name`= ?,`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = ?");
+		$stmt2->bind_param("ss", $name,  $tel);
+		$stmt2->execute();
+
+//		$mysqli->query("UPDATE `users` SET `name`='$name',`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = '$tel'");
 //		$_SESSION['sessionkey'] = $_session_key;
 //		$_SESSION['full_name'] = $name;
 
@@ -34,9 +48,19 @@
 		setcookie("sessionname", $row['id_user'], time()+999999999);
 		setcookie("name", $name, time()+999999999);
 	} else {
+		$false_password = intval( $row['false_sms_8lk4m'] ) ;
+		$false_password++;
+		$stmt3 = $mysqli->prepare("UPDATE `users` SET `false_sms_8lk4m`= ? WHERE `tel` = ?");
+		$stmt3->bind_param("is", $false_password,  $tel);
+		$stmt3->execute();
 		die( "False code!" );
 	}
 
 ?>
 
+
+false_password
+false_sms_8lk4m
+ifcreate
+block
 

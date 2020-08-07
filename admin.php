@@ -1,26 +1,60 @@
 <?php
 //session_start();
 
-	include "header.php";
 	include "connect.php";
 
-	if ($_COOKIE["sessionkey"]) {
+	if (!$_COOKIE["sessionkey"]) {
+        header('Location: /register.php');
+        setcookie("sessionkey", 'false', time()-1);
+        setcookie("sessionname", 'false', time()-1);
+        setcookie("name", 'false', time()-1);
+        exit();
+    };
         $sessionkey = $_COOKIE["sessionkey"];
         $sessionname = $_COOKIE["sessionname"];
-		$resUser = $mysqli->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
+
+        $stmt = $mysqli->prepare("SELECT * FROM users WHERE id_user = ?");
+        $stmt->bind_param("s", $sessionname );
+        $stmt->execute();
+        $resUser = $stmt->get_result();
 		$rowUser = $resUser->fetch_assoc();
+
+        if ( intval( $rowUser['false_password'] ) >= 5  ) {
+            header('Location: /index.php');
+            setcookie("sessionkey", 'false', time()-1);
+            setcookie("sessionname", 'false', time()-1);
+            setcookie("name", 'false', time()-1);
+            exit();};
+
+        if ( $rowUser['block'] == '1' ) {
+            header('Location: /index.php');
+            setcookie("sessionkey", 'false', time()-1);
+            setcookie("sessionname", 'false', time()-1);
+            setcookie("name", 'false', time()-1);
+            exit();};
+
 		$str = $rowUser['article'];
 		$arr = json_decode($str);
-		?>
-		<section class="container container_index row">
-		<?php
-		foreach ($arr as &$value) {
-			$resArt = $mysqli->query("SELECT * FROM `article` WHERE `id_article` = $value");
-			$rowArt = $resArt->fetch_assoc();
-			$h = $rowArt['linc'];
-			$img = $rowArt['img'];
-			$titlea = $rowArt['title'];
-			echo ("<div class='card'>
+
+
+    if ($rowUser['sessionkey'] == $sessionkey) {
+        include "header.php";
+
+        ?>
+
+        <section class="container container_index row">
+            <?php
+            foreach ($arr as &$value) {
+                $stmt2 = $mysqli->prepare("SELECT * FROM `article` WHERE `id_article` = ?");
+                $stmt2->bind_param("s", $value );
+                $stmt2->execute();
+                $resArt = $stmt2->get_result();
+                $rowArt = $resArt->fetch_assoc();
+
+                $h = $rowArt['linc'];
+                $img = $rowArt['img'];
+                $titlea = $rowArt['title'];
+                echo ("<div class='card'>
 				<div class='cardDiv' style='background-image:url(\"$img\");'>
 					<div class='adminBtn'>
 						<a class='button button_signIn' href='$h.php'>See</a>
@@ -30,42 +64,20 @@
 					<h2 class='card_text'>$titlea</h2>
 				</div>
 			</div>");
-		}
-		?>
-		</section>
-		<?php
-	} ;
-	// else {
-	// 	$sessionkey = $_COOKIE["sessionkey"];
+            }
+            ?>
+        </section>
+        <?php include "footer.php";
+    } else {
+        $false_password = $rowUser['false_password'];
+        $false_password++;
+        $stmt3 = $mysqli->prepare("UPDATE `users` SET `false_password`= ? WHERE `id_user` = ?");
+        $stmt3->bind_param("ss", $false_password,  $sessionname);
+        $stmt3->execute();
+        header('Location: /register.php');
+        setcookie("sessionkey", 'false', time()-1);
+        setcookie("sessionname", 'false', time()-1);
+        setcookie("name", 'false', time()-1);
+        exit(); };
 
-	// 	$res = $mysqli->query("SELECT * FROM users WHERE sessionkey = '$sessionkey'");
-	// 	$row = $res->fetch_assoc();
-
-	// 	$sessionname = $row['name'];
-	// 	if ($row['sessionkey'] == $sessionkey) {
-
-	// 		$mysqli->query("INSERT INTO `article`(`linc`, `title`, `body`, `name`, `description`, `keywords`, `img`, `img_head`, `category`) VALUES ('$linc', '$title','$body','$sessionname','$description','$keywords','$img','$img_head','$category')");
-	// 		$id_article = $mysqli->insert_id;
-
-	// 		$str = $row['article'];
-	// 		$arr = json_decode($str);
-	// 		$arr[] = $id_article;
-	// 		$str2 = json_encode($arr);
-	// 		$mysqli->query("UPDATE `users` SET `article` = '$str2' WHERE sessionkey = '$sessionkey'");
-	// 	}
-	// };
-	// <div class="adminBtn" > <a class="button button_signIn" href="#">Redact</a><a class="button button_signIn" href="#">Delete</a></div>
-include "footer.php" ?>
-<?php 
-$dssdsds = <<<'ASDFG'
-<a class='card' href='<?php echo $rowArt['linc'] ?>.php'>
-<div class='cardDiv' style='background-image:url(<?php echo $rowArt['img'] ?>);'>
-	<div class='adminBtn'>
-		<a class='button button_signIn' href='#'>Redact</a>
-		<a class='button button_signIn' href='#'>Delete</a>
-	</div>
-	<h2 class='card_text'><?php echo $rowArt['title'] ?> </h2>
-</div>
-</a>
-ASDFG;
-?>
+ ?>

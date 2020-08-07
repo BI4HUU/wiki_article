@@ -1,30 +1,29 @@
 <?php
-//	session_start();
-	$mysqli = new mysqli("localhost", "id11565558_root", "o)!Z~v%+<CRjh^W0", "id11565558_article");
+	include "connect.php";
 
 	$tel = $_POST['tel'];
 	$code = $_POST['confirm'];
 
-	$res = $mysqli->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
+	$stmt = $mysqli->prepare("SELECT * FROM users WHERE tel = ?");
+	$stmt->bind_param("s", $tel);
+	$stmt->execute();
+	$res = $stmt->get_result();
 	$row = $res->fetch_assoc();
 
-//	function generate_session($number) {
-//		$arr = array('a','b','c','d','e','f','g','h','i','k','m','n','p','r','s','t','u','v','x','y','z','A','B','C','D','E','F','G','H','K','L',
-//		'M','N','P','R','S','T','U','V','X','Y','Z','2','3','4','5','6','7','8','9');
-//		$pass = "";
-//		for($i = 0; $i < $number; $i++){
-//			$index = rand(0, count($arr) - 1);
-//			$pass .= $arr[$index];}
-//		return $pass;}
-
-	if ($row['tel'] == $tel) {
-//		$sessionkey = $row['sessionkey'];
-//		$_SESSION['tel'] = $row['tel'];
-//		$_SESSION['full_name'] = $row['name'];
+	if ( $row['code'] == strval($code) ) {
 		setcookie("sessionkey", $row['sessionkey'], time()+999999999);
 		setcookie("sessionname", $row['id_user'], time()+999999999);
 		setcookie("name", $row['name'], time()+999999999);
 	} else {
+		$false_password = intval( $row['false_sms_8lk4m'] );
+		$false_password++;
+		$stmt3 = $mysqli->prepare("UPDATE `users` SET `false_sms_8lk4m`= ? WHERE `tel` = ?");
+		$stmt3->bind_param("ss", $false_password,  $tel);
+		$stmt3->execute();
+		header('Location: /register.php');
+		setcookie("sessionkey", 'false', time()-1);
+		setcookie("sessionname", 'false', time()-1);
+		setcookie("name", 'false', time()-1);
 		die("False password");
 	};
 

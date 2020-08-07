@@ -3,7 +3,7 @@
     $WHERE = 1;
 
 	if($_GET["logout"]){
-		session_abort ();
+//		session_abort ();
 		setcookie("sessionkey", 'false', time()-1);
         setcookie("sessionname", 'false', time()-1);
         setcookie("name", 'false', time()-1);

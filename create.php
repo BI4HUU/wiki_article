@@ -1,17 +1,9 @@
-<?php session_start();
-	// if (!$_COOKIE["sessionkey"] or !$_SESSION['full_name']) {
-	// 	header("Location: /register.php"); exit; }
+<?php
+    if(!$_COOKIE['sessionname']){
+        header('Location: /register.php');
+        exit; };
 
-	if($_COOKIE["sessionkey"]){
-	} else {
-		if($_SESSION['sessionkey']){
-		} else {
-			header('Location: /index.php');
-			exit;
-		};
-	};
-
-include "header.php"; ?>
+    include "header.php"; ?>
 
 <section class="container">
 	<div id="wrap_gen">
@@ -312,6 +304,7 @@ function Generate() {
 	}
 	sendData()
 }
+
 var wrap_gen = document.getElementById('wrap_gen');
 
 

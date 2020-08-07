@@ -7,14 +7,20 @@ global $description;      $description = "";
 global $keywords;         $keywords = "";
 global $menu_item_active; $menu_item_active = true;
 
-include "header.php" ?>
+$stmt = $mysqli->prepare("SELECT * FROM article WHERE category= ? LIMIT 6");
+
+include "header.php";
+ ?>
 
     <section class="container container_index row">
         <div class="categoryWrap">
             <a href="index.php?category=money" class="category">Money</a>
         <?php
-        $query =  "SELECT * FROM article WHERE category='Money' LIMIT 6";
-        if ($result = $mysqli->query($query)) {
+        $var = "Money";
+        $stmt->bind_param("s", $var );
+        $stmt->execute();
+
+        if ($result = $stmt->get_result()) {
             while ($row = $result->fetch_assoc()) {
                 ?>
 
@@ -34,8 +40,11 @@ include "header.php" ?>
         <div class="categoryWrap">
             <a href="index.php?category=programs" class="category">Programs</a>
         <?php
-        $query =  "SELECT * FROM article WHERE category='Programs' LIMIT 6";
-        if ($result = $mysqli->query($query)) {
+        $var = "Programs";
+        $stmt->bind_param("s", $var );
+        $stmt->execute();
+
+        if ($result = $stmt->get_result()) {
             while ($row = $result->fetch_assoc()) {
                 ?>
 

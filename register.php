@@ -35,6 +35,7 @@
 <!--        onlogin="checkLoginState();">-->
 <!--    </fb:login-button>-->
 </div>
+    <div style="margin: auto" id="mesegesCalbeack"></div>
 </section>
 
 
@@ -88,7 +89,7 @@
 // 	});
 // }
 </script>
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+<!--<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>-->
 
 <script>
 
@@ -119,11 +120,7 @@
 		XHR.send( `&tel=${ tel }&confirm=${ confirm }&full_name=${ full_name }` );
 		XHR.responseType = 'text';
 		XHR.onload = function() {
-			if(XHR.response == "False code!") {
-				document.getElementById('mesegesCalbeack').innerText = XHR.response;
-			} else {
-				document.location.href = "/create.php";
-			};
+            document.getElementById('mesegesCalbeack').innerText = XHR.response;
 		};
 }
 </script>
