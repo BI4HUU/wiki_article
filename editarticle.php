@@ -41,7 +41,7 @@
 			$arr = json_decode($str);
 			foreach ($arr as &$value) {
 				if ($value == $id){
-					$mysqli->query("UPDATE `article` SET `linc` = '$linc', `title` = '$title', `body` = '$body', `name` = '$name', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `category` = '$category' WHERE `article`.`id_article` = '$id'");
+					$mysqli->query("UPDATE `article` SET `linc` = '$linc', `title` = '$title', `body` = '$body', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `category` = '$category' WHERE `article`.`id_article` = '$id'");
 				}
 			}
 		}

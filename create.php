@@ -12,7 +12,14 @@
 			<input onchange="change_main(this)" id="chooseMain" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_main button"><label for="chooseMain">Загрузить фото превю</label></div>
 		</div>
-		<textarea category id="category" placeholder="Категория" tabindex cols rows="1" ></textarea>
+<!--		<textarea category id="category" placeholder="Категория" tabindex cols rows="1" ></textarea>-->
+        <span style="display: block; margin: 2em 0 0.3em 0; padding: 5px 0"> Категория: &nbsp;
+            <select  style="margin: 5px 0;padding: 8px 0" size="1" id="category" name="category">
+                <option style="display: block; padding: 10px 0" value="Money">Money</option>
+                <option style="padding: 10px 0" value="Programs">Programs</option>
+                <option style="padding: 10px 0" selected value="Other">Other</option>
+            </select>
+        </span>
 		<textarea keywords placeholder="Ключевые слова" tabindex cols rows="1" ></textarea>
 		<textarea description placeholder="Краткое описание" tabindex cols rows="1" ></textarea>
 		<textarea title id="title" placeholder="Заголовок" tabindex cols rows="1" ></textarea>
@@ -266,6 +273,7 @@ var description;
 var keywords;
 var category;
 function Generate() {
+    category = document.getElementById('category').value;
 	for (var i = 0; i < textarea.length; i++) {
 		if (textarea[i].hasAttribute('linc')) {
 			linc = textarea[i].value;
@@ -279,9 +287,9 @@ function Generate() {
 		if (textarea[i].hasAttribute('title')) {
 			title = textarea[i].value;
 		}
-		if (textarea[i].hasAttribute('category')) {
-			category = textarea[i].value;
-		}
+		// if (textarea[i].hasAttribute('category')) {
+		// 	category = textarea[i].value;
+		// }
 		if (textarea[i].hasAttribute('img')) {
 			var imgBlock = document.createElement("img")
 			imgBlock.src = textarea[i].getAttribute("img");

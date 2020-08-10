@@ -20,7 +20,7 @@
     $res = $stmt2->get_result();
 
     $tel = "+" . $tel;
-//    echo send("api.smsfeedback.ru", 80, "arbitr1688", "Ama016880", $tel , $confirmNumber, "TEST-SMS");
+    echo send("api.smsfeedback.ru", 80, "arbitr1688", "Ama016880", $tel , $confirmNumber, "TEST-SMS");
 
     function generate_pass($number) {
     $arr = array('0','1','2','3','4','5','6','7','8','9');

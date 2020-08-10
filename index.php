@@ -19,6 +19,10 @@
         $WHERE = "category = 'Money'";
     };
 
+    if($_GET["category"] == 'other'){
+        $WHERE = "category = 'Other'";
+    };
+
 	include "connect.php";
 
 	global $title;       $title = "";
@@ -29,7 +33,7 @@
 
 <section class="container container_index row">
 <?php
-$query =  "SELECT * FROM article WHERE $WHERE";
+$query =  "SELECT * FROM article WHERE $WHERE ORDER BY like_8f6b4n5m6 DESC";
 	if ($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_assoc()) {
 		?>

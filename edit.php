@@ -1,4 +1,4 @@
-<?php session_start();
+<?php
 
 	include "connect.php";
 	$id_article = $_GET["edit"];
@@ -31,7 +31,15 @@ include "header.php";?>
 		</div>
 
 
-		<textarea category id="category" placeholder="Категория" tabindex cols rows="1" ><?php echo $row['category'] ?></textarea>
+        <span style="display: block; margin: 2em 0 0.3em 0; padding: 5px 0"> Категория: &nbsp;
+            <select  style="margin: 5px 0;padding: 8px 0" size="1" id="category" name="category">
+
+
+                <option style="padding: 10px 0" <?php if ($row['category'] == 'Money') echo('selected'); ?> value="Money">Money</option>
+                <option style="padding: 10px 0" <?php if ($row['category'] == 'Programs') echo('selected'); ?> value="Programs">Programs</option>
+                <option style="padding: 10px 0" <?php if ($row['category'] == 'Other') echo('selected'); ?> value="Other">Other</option>
+            </select>
+        </span>
 		<textarea keywords placeholder="Ключевые слова" tabindex cols rows="1" ><?php echo $row['keywords'] ?></textarea>
 		<textarea description placeholder="Краткое описание" tabindex cols rows="1" ><?php echo $row['description'] ?></textarea>
 		<textarea title id="title" placeholder="Заголовок" tabindex cols rows="1" ><?php echo $row['title'] ?></textarea>
@@ -286,6 +294,7 @@ var description;
 var keywords;
 var category;
 function Generate() {
+    category = document.getElementById('category').value;
 	for (var i = 0; i < textarea.length; i++) {
 		if (textarea[i].hasAttribute('linc')) {
 			linc = textarea[i].value;
@@ -299,9 +308,9 @@ function Generate() {
 		if (textarea[i].hasAttribute('title')) {
 			title = textarea[i].value;
 		}
-		if (textarea[i].hasAttribute('category')) {
-			category = textarea[i].value;
-		}
+		// if (textarea[i].hasAttribute('category')) {
+		// 	category = textarea[i].value;
+		// }
 		if (textarea[i].hasAttribute('img')) {
 			var imgBlock = document.createElement("img")
 			imgBlock.src = textarea[i].getAttribute("img");

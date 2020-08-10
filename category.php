@@ -59,4 +59,27 @@ include "header.php";
             <a href="index.php?category=programs" style="margin:20px auto;display: block;" class="button button_signIn"">Больше Programs</a>
         </div>
     </section>
+    <section class="container container_index row">
+        <div class="categoryWrap">
+            <a href="index.php?category=other" class="category">Other</a>
+            <?php
+            $var = "Other";
+            $stmt->bind_param("s", $var );
+            $stmt->execute();
+
+            if ($result = $stmt->get_result()) {
+                while ($row = $result->fetch_assoc()) {
+                    ?>
+
+                    <a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $row['img'] ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
+
+                <?php }
+
+                $result->free();
+            }
+            ?>
+            <div class="w-100"></div>
+            <a href="index.php?category=other" style="margin:20px auto;display: block;" class="button button_signIn"">Больше Other</a>
+        </div>
+    </section>
 <?php include "footer.php" ?>

@@ -1,12 +1,13 @@
 <?php
-	include "connect.php";
-	$query =  "SELECT * FROM article WHERE 1";
-	$result = $mysqli->query($query);
-	$row = $result->fetch_assoc();
+include "connect.php";
+$query =  "SELECT * FROM article WHERE 1";
+$result = $mysqli->query($query);
+$row = $result->fetch_assoc();
 
-	global $title;       $title = "";
-	global $description; $description = "";
-	global $keywords;    $keywords = "";
+global $title;       $title = "";
+global $description; $description = "";
+global $keywords;    $keywords = "";
+
 
 $text1 = <<<'HEREDOC'
 <?php
@@ -61,18 +62,18 @@ HEREDOC4;
 
 
 while ($row = $result->fetch_assoc()) {
-	$nameFile = $row['linc'] . ".php";
-	$fp = fopen($nameFile, 'w');
+    $nameFile = $row['linc'] . ".php";
+    $fp = fopen($nameFile, 'w');
 
-	$test = fwrite($fp, $text1 . $row['id_article'] . $text2 . $row['id_article'] . $text3 . $row['id_article'] . $text4);
-	fclose($fp);
+    $test = fwrite($fp, $text1 . $row['id_article'] . $text2 . $row['id_article'] . $text3 . $row['id_article'] . $text4);
+    fclose($fp);
 }
 
 include "header.php";
 
 ?>
-<section class="container container_index row">
-    <h1>Thank! The article will be added after verification.</h1>
-</section>
+    <section class="container container_index row">
+        <h1>Thank! The article will be added after verification.</h1>
+    </section>
 
 <?php include "footer.php" ?>
