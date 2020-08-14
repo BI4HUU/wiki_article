@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /g.php
+Disallow: /bleack_list.php
+Disallow: /bleack_list2.php
+Disallow: /reg1.php
+Disallow: /header.php
+Disallow: /see.php
+Disallow: /like.php
+Disallow: /reg.php
+Disallow: /delete.php
+Disallow: /admin.php
+Disallow: /addarticle.php
+Disallow: /authphp.php
+Disallow: /authphp1.php
+Disallow: /fb.php
+Disallow: /img.php
+Disallow: /imgmain.php
+Disallow: /connect.php
+Disallow: /imghead.php
+Disallow: /footer.php
+Allow: /
+
+Sitemap: https://preterit-strikes.000webhostapp.com/sitemap.txt
