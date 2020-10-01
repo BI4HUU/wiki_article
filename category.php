@@ -69,9 +69,15 @@ include "header.php";
 
             if ($result = $stmt->get_result()) {
                 while ($row = $result->fetch_assoc()) {
+                    if($row['img'] == ''){
+                        $img_ = '/uploads/img.jpg';
+                    } else{
+                        $img_ = $row['img'];
+                    };
+
                     ?>
 
-                    <a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $row['img'] ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
+                    <a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $img_ ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
 
                 <?php }
 

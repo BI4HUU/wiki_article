@@ -12,7 +12,16 @@
 
     $row = $res->fetch_assoc();
     if ( $row['block'] == '1' ) { die( "This number is blocked! Contact support." ); };
-    if ( $row['tel'] == $tel ) { die("This number is already registered! Sign in or contact support."); }
+
+    if ( $row['tel'] == $tel ) {
+//        die("This number is already registered! Sign in or contact support.");
+
+        $stmt4 = $mysqli->prepare("UPDATE `users` SET `code`= ? WHERE `tel` = ?");
+        $stmt4->bind_param("ss", $confirmNumber,  $tel);
+        $stmt4->execute();
+        echo send("api.smsfeedback.ru", 80, "arbitr1688", "Ama016880", $tel , $confirmNumber, "TEST-SMS");
+        die();
+    }
 
     $stmt2 = $mysqli->prepare("INSERT INTO `users`(`email`, `tel`, `name`, `password`, `code`) VALUES (?, ?, 'name', 'pass', ?)");
     $stmt2->bind_param("sss", $tel, $tel, $confirmNumber );

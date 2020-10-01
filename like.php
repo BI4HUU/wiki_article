@@ -1,8 +1,8 @@
 <?php
     $id_article = $_POST["id_article"];
-    include "connect.php";
 
     if ($_COOKIE["sessionkey"]) {
+        include "connect.php";
         // $name = $_COOKIE['full_name'];
         $sessionkey = $_COOKIE["sessionkey"];
         $id_user = $_COOKIE["sessionname"];

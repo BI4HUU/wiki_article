@@ -3,11 +3,12 @@
         header('Location: /register.php');
         exit; };
 
-    include "header.php"; ?>
+    include "header.php";
+    include "bleack_list2.php";  ?>
 
 <section class="container">
 	<div id="wrap_gen">
-		<textarea id="link" linc placeholder="Ссылка" tabindex cols rows ></textarea>
+		<textarea id="link" linc oninput="check_link(this)" placeholder="Ссылка" tabindex cols rows ></textarea>
 		<div id="wrap_chooseMain">
 			<input onchange="change_main(this)" id="chooseMain" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_main button"><label for="chooseMain">Загрузить фото превю</label></div>
@@ -34,10 +35,6 @@
 	<div class="ajax-reply"></div>
 
 	<button style="margin:20px auto;display: block;" class="button button_signIn" onclick="Generate()">End</button>
-	<!-- <button onclick="AddParagraph()">Add Paragraph</button>
-	<button onclick="AddHeading()">Add Heading</button>
-	<button onclick="AddHTML()">Add HTML</button>
-	<button onclick="AddChoose()">Add Photo</button> -->
 
 	<script src="ckeditor/ckeditor.js"></script>
 	<script src="ckfinder/ckfinder.js"></script>
@@ -68,8 +65,6 @@ function change_head(file) {
 
 
 function upload_photo_main( event ){
-	// event.stopPropagation(); // остановка всех текущих JS событий
-	// event.preventDefault();  // остановка дефолтного события для текущего элемента - клик для <a> тега
 	// ничего не делаем если files пустой
 	if( typeof files == 'undefined' ) return;
 	// создадим объект данных формы
@@ -123,10 +118,6 @@ function upload_photo_main( event ){
 };
 
 function upload_photo_head(event){
-	// console.log(event);
-	// event.stopPropagation(); остановка всех текущих JS событий
-	// event.preventDefault();  остановка дефолтного события для текущего элемента - клик для <a> тега
-	// ничего не делаем если files пустой
 	if( typeof files == 'undefined' ) return;
 	// создадим объект данных формы
 	var data = new FormData();
@@ -287,9 +278,7 @@ function Generate() {
 		if (textarea[i].hasAttribute('title')) {
 			title = textarea[i].value;
 		}
-		// if (textarea[i].hasAttribute('category')) {
-		// 	category = textarea[i].value;
-		// }
+
 		if (textarea[i].hasAttribute('img')) {
 			var imgBlock = document.createElement("img")
 			imgBlock.src = textarea[i].getAttribute("img");
@@ -312,10 +301,22 @@ function Generate() {
 	}
 	sendData()
 }
+    var wrap_gen = document.getElementById('wrap_gen');
 
-var wrap_gen = document.getElementById('wrap_gen');
+    var bleack_list = <?php echo json_encode($bleack_list2, JSON_UNESCAPED_UNICODE) ?>;
+    console.log( bleack_list )
 
-
+    function check_link(_this) {
+        bleack_list.forEach(function (bleack_item) {
+            if (_this.value == bleack_item) {
+                _this.classList.add("class", "red");
+                alert(_this.value + ' - This name link used by. Это названия ссылки занято')
+                console.log(_this.value);
+            } else {
+                _this.classList.add("class", "");
+            }
+        })
+    };
 // function AddChoose() {
 // 	var Choose = document.createElement("input")
 // 	var ChooseA = document.createElement("a")

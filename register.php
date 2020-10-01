@@ -20,12 +20,12 @@
 	<!-- <label>Пароль</label><br> -->
 	<!-- <input id="password" type="password" name="password" placeholder="Введите пароль"><br> -->
 	<!-- <label>ФИО</label><br> -->
-	<input id="full_name" type="text" name="full_name" placeholder="Введите свое полное имя"><br>
+<!--	<input id="full_name" type="text" name="full_name" placeholder="Введите свое полное имя"><br>-->
 	<div id="wrap_button">
-		<div class="button button_signIn" onClick="sendDataReg()" class="register-btn">Зарегистрироваться</div>
-		<a href="auth.php">
-				<div style="border: 2px #bbb solid;color: #bbb;" class="button button_signIn">Вход</div>
-		</a>
+		<div class="button button_signIn" onClick="sendDataReg()" class="register-btn">Войти</div>
+<!--		<a href="auth.php">-->
+<!--				<div style="border: 2px #bbb solid;color: #bbb;" class="button button_signIn">Вход</div>-->
+<!--		</a>-->
 	</div>
 	<?php  ?>
 </form>
@@ -34,8 +34,9 @@
 <!--        scope="public_profile,email"-->
 <!--        onlogin="checkLoginState();">-->
 <!--    </fb:login-button>-->
-</div>
-    <div style="margin: auto" id="mesegesCalbeack"></div>
+<!--</div>-->
+    <div style="text-align: center;" id="mesegesCalbeack"></div>
+    <div style="text-align: center; color: #444444" class="info">Первый раз "Войти" работает как регистрация!</div>
 </section>
 
 
@@ -112,15 +113,19 @@
 		var tel = document.getElementById("tel").value;
 		var confirm = document.getElementById("confirm").value;
 		// var password = document.getElementById("password").value;
-		var full_name = document.getElementById("full_name").value;
-
-		const XHR = new XMLHttpRequest();
+		// var full_name = document.getElementById("full_name").value;
+        var full_name = '';
+        const XHR = new XMLHttpRequest();
 		XHR.open( 'POST', 'reg.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		XHR.send( `&tel=${ tel }&confirm=${ confirm }&full_name=${ full_name }` );
 		XHR.responseType = 'text';
 		XHR.onload = function() {
-            document.getElementById('mesegesCalbeack').innerText = XHR.response;
+            if (XHR.response === "False code!.") {
+                document.getElementById('mesegesCalbeack').innerText = XHR.response;
+            } else {
+                document.location.href = "/index.php";
+            }
 		};
 }
 </script>

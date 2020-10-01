@@ -2,7 +2,8 @@
 	include "connect.php";
 
 	$tel = $_POST['tel'];
-	$name = $_POST['full_name'];
+//	$name = $_POST['full_name'];
+	$name = '';
 	// $pass = md5($_POST['password']);
 	$code = $_POST['confirm'];
 
@@ -15,7 +16,34 @@
 	$row = $res->fetch_assoc();
 	if ( $row['block'] == '1' ) { die( "This number is blocked! Contact support." ); };
 	if ( intval( $row['false_password'] ) >= 5 ) { die( "False code! > 5 items" ); };
-	if ( intval( $row['ifcreate'] ) == 1  ) { die( "This number is already registered! Sign in or contact support." ); };
+
+	if ( intval( $row['ifcreate'] ) == 1  ) {
+
+		if ( $row['code'] == strval($code) ) {
+			$_session_key =  generate_session(40);
+			$stmt4 = $mysqli->prepare("UPDATE `users` SET `sessionkey`= ? WHERE `tel` = ?");
+			$stmt4->bind_param("ss", $_session_key,  $tel);
+			$stmt4->execute();
+			setcookie("sessionkey", $_session_key, time()+999999999);
+			setcookie("sessionname", $row['id_user'], time()+999999999);
+			setcookie("name", $row['name'], time()+999999999);
+			header('Location: /index.php');
+			die("Auth ok");
+		} else {
+			$false_password = intval( $row['false_sms_8lk4m'] );
+			$false_password++;
+			$stmt3 = $mysqli->prepare("UPDATE `users` SET `false_sms_8lk4m`= ? WHERE `tel` = ?");
+			$stmt3->bind_param("ss", $false_password,  $tel);
+			$stmt3->execute();
+			header('Location: /register.php');
+			setcookie("sessionkey", 'false', time()-1);
+			setcookie("sessionname", 'false', time()-1);
+			setcookie("name", 'false', time()-1);
+			die("False password");
+		};
+
+//		die( "This number is already registered! Sign in or contact support." );
+	};
 
 //	$res = $mysqli->query("SELECT * FROM users WHERE tel = '$tel' AND code = '$code'");
 
@@ -29,9 +57,9 @@
 			$pass .= $arr[$index];
 		}
 		return $pass;
-	}
+	};
 
-	if ($row['code'] == $code) {
+	if ($row['code'] == strval($code)) {
 		$_session_key =  generate_session(40);
 
 		$stmt2 = $mysqli->prepare("UPDATE `users` SET `name`= ?,`ifcreate`='1', `sessionkey` = '$_session_key' WHERE `tel` = ?");
@@ -47,20 +75,17 @@
 		setcookie("sessionkey", $_session_key, time()+999999999);
 		setcookie("sessionname", $row['id_user'], time()+999999999);
 		setcookie("name", $name, time()+999999999);
+        header('Location: /index.php');
+
 	} else {
 		$false_password = intval( $row['false_sms_8lk4m'] ) ;
 		$false_password++;
 		$stmt3 = $mysqli->prepare("UPDATE `users` SET `false_sms_8lk4m`= ? WHERE `tel` = ?");
 		$stmt3->bind_param("is", $false_password,  $tel);
 		$stmt3->execute();
-		die( "False code!" );
+		die( "False code!." );
 	}
 
 ?>
 
-
-false_password
-false_sms_8lk4m
-ifcreate
-block
 

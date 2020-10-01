@@ -1,6 +1,7 @@
 <?php
 //session_start();
 
+    $full_name = $_POST['full_name'];
 	include "connect.php";
 
 	if (!$_COOKIE["sessionkey"]) {
@@ -38,9 +39,23 @@
 
 
     if ($rowUser['sessionkey'] == $sessionkey) {
+
+        if ($full_name){
+            $stmt4 = $mysqli->prepare("UPDATE `users` SET `name`= ? WHERE `id_user` = ?");
+            $stmt4->bind_param("ss", $full_name,  $sessionname);
+            $stmt4->execute();
+
+
+
+            setcookie("name", $full_name, time()+999999999);
+            die('nameok');
+
+        };
         include "header.php";
 
+
         ?>
+
 
         <section class="container container_index row">
             <?php
@@ -81,3 +96,31 @@
         exit(); };
 
  ?>
+
+<section class="container">
+    <form>
+        <div class="wrap_button" style="margin-top: 10px;" >
+            <!--                    <input style="width: 120px; margin-left: 15px; margin-top: 20px;" name="confirm" id="confirm" placeholder="Code in SMS">-->
+            <input id="full_name" type="text" name="full_name" placeholder="Введите свое имя"><br>
+        </div>
+        <div class="button button_signIn register-btn" onClick="sendData()">Изменить</div>
+        <!--                <div id="wrap_button">-->
+        <!--                    <div class="button button_signIn" onClick="sendDataReg()" class="register-btn">Зарегистрироваться</div>-->
+        <!--                </div>-->
+    </form>
+</section>
+
+<script>
+function sendData() {
+
+    var full_name = document.getElementById("full_name").value;
+    // var password = document.getElementById("password").value;
+    // var full_name = document.getElementById("full_name").value;
+    const XHR = new XMLHttpRequest();
+    XHR.open( 'POST', 'admin.php' );
+    XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+    XHR.send( `&full_name=${ full_name }` );
+    XHR.responseType = 'text';
+    XHR.onload = function() {};
+}
+</script>

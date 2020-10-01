@@ -1,6 +1,6 @@
 <?php
 	$id =          $_POST['id'];
-	$linc =        $_POST['linc'];
+//	$linc =        $_POST['linc'];
 	$title =       $_POST['title'];
 	$img =         $_POST['img'];
 	$img_head =    $_POST['img_head'];
@@ -9,13 +9,19 @@
 	$keywords =    $_POST['keywords'];
 	$category =    $_POST['category'];
 
-	include "connect.php";
+	echo 1;
+
+    include "connect.php";
+//    include "bleack_list2.php";
+//    foreach( $bleack_list2 as &$value){
+//        if ($value == $linc) exit('bleack_list2');};
 
 	if ($_COOKIE["sessionkey"]) {
 		// $name = $_COOKIE['full_name'];
 		$sessionkey = $_COOKIE["sessionkey"];
         $id_user = $_COOKIE["sessionname"];
 
+        echo 2;
         $stmt = $mysqli->prepare("SELECT sessionkey, article, false_password, block FROM users WHERE id_user = ?");
         $stmt->bind_param("s", $id_user);
         $stmt->execute();
@@ -37,11 +43,14 @@
             exit();};
         if ($rowUser['sessionkey'] == $sessionkey) {
 
+            echo 3;
 			$str = $rowUser['article'];
 			$arr = json_decode($str);
 			foreach ($arr as &$value) {
+                echo 4;
 				if ($value == $id){
-					$mysqli->query("UPDATE `article` SET `linc` = '$linc', `title` = '$title', `body` = '$body', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `category` = '$category' WHERE `article`.`id_article` = '$id'");
+                    echo 5;
+					$mysqli->query("UPDATE `article` SET `title` = '$title', `body` = '$body', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `category` = '$category' WHERE `article`.`id_article` = '$id'");
 				}
 			}
 		}

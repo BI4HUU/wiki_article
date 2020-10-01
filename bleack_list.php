@@ -1,0 +1,37 @@
+<?php
+$bleack_list1 = [
+    'index',
+    'bleack_list',
+    'bleack_list2',
+    'g',
+    'reg1',
+    'header',
+    'category',
+    'create',
+    'edit',
+    'editarticle',
+    'see',
+    'like',
+    'reg',
+    'delete',
+    'admin',
+    'register',
+    'addarticle',
+    'authphp',
+    'authphp1',
+    'auth',
+    'fb',
+    'img',
+    'imgmain',
+    'connect',
+    'imghead',
+    'footer'
+];
+$good_list1 = [
+    'index',
+    'category',
+    'create',
+    'edit',
+    'register',
+    'auth'
+];

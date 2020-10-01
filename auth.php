@@ -46,7 +46,7 @@
 		// var full_name = document.getElementById("full_name").value;
 
 		const XHR = new XMLHttpRequest();
-		XHR.open( 'POST', 'authphp.php' );
+		XHR.open( 'POST', 'reg.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		XHR.send( `&tel=${ tel }&confirm=${ confirm }` );
 		XHR.responseType = 'text';
@@ -54,7 +54,7 @@
 			if (XHR.response === "False password") {
 				document.getElementById('mesegesCalbeack').innerText = XHR.response;
 			} else {
-				document.location.href = "/create.php";
+				document.location.href = "/index.php";
 			}
 		};
 	}

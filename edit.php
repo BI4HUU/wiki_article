@@ -16,11 +16,12 @@
 		};
 	};
 
-include "header.php";?>
+include "header.php";
+include "bleack_list2.php";?>
 
 <section class="container">
 	<div id="wrap_gen">
-		<textarea id="link" linc placeholder="Ссылка" tabindex cols rows ><?php echo $row['linc'] ?></textarea>
+<!--		<textarea id="link" linc placeholder="Ссылка" tabindex cols rows >--><?php //echo $row['linc'] ?><!--</textarea>-->
 
 
 		<div id="wrap_chooseMain">
@@ -293,6 +294,9 @@ var name = 'nameTest';
 var description;
 var keywords;
 var category;
+
+    var wrap_gen = document.getElementById('wrap_gen');
+
 function Generate() {
     category = document.getElementById('category').value;
 	for (var i = 0; i < textarea.length; i++) {
@@ -326,14 +330,14 @@ function Generate() {
 		XHR.open( 'POST', 'editarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		DataHTML_CK = encodeURIComponent(DataHTML_CK);
-		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}&id=${<?php echo $id_article ?>}` );
+		XHR.send( `body=${ DataHTML_CK }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}&id=${<?php echo $id_article ?>}` );
 		XHR.onload = function() {
 				document.location.href = "/g.php";
 			};
 	}
 	sendData();
 }
-var wrap_gen = document.getElementById('wrap_gen');
+
 
 
 </script>

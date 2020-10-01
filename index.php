@@ -36,8 +36,17 @@
 $query =  "SELECT * FROM article WHERE $WHERE ORDER BY like_8f6b4n5m6 DESC";
 	if ($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_assoc()) {
+
+
+            if($row['img'] == ''){
+                $img_head = '/uploads/img.jpg';
+            } else{
+                $img_head = $row['img'];
+            };
+
+
 		?>
-			<a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $row['img'] ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
+			<a class='card' href='<?php echo $row['linc'] ?>.php'><div class='cardDiv' style="background-image:url('<?php echo $img_head ?>');"><h2 class='card_text'><?php echo $row['title'] ?> </h2></div></a>
 		<?php }
 
 	$result->free();
