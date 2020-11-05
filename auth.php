@@ -11,7 +11,7 @@
 		<!-- <label>Пароль</label><br> -->
 		<div class="wrap_button" style="margin-top: 10px;" >
 			<div class="button button_signIn register-btn" onClick="sendData()">Проверить</div>
-			<input style="width: 120px; margin-left: 15px; margin-top: 20px;" name="confirm" id="confirm" placeholder="Code in SMS">
+			<input style="width: 130px; margin-left: 15px; margin-top: 20px;" name="confirm" id="confirm" placeholder="Code in SMS">
 		</div><br>
 		<div class="wrap_button">
 			<div class="button button_signIn" onClick="sendDataReg()" class="login-btn">Войти</div>

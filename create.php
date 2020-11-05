@@ -8,7 +8,7 @@
 
 <section class="container">
 	<div id="wrap_gen">
-		<textarea id="link" linc oninput="check_link(this)" placeholder="Ссылка" tabindex cols rows ></textarea>
+		<textarea style="line-height: 2em;" id="link" linc oninput="check_link(this)" placeholder="Ссылка" tabindex cols rows ></textarea>
 		<div id="wrap_chooseMain">
 			<input onchange="change_main(this)" id="chooseMain" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_main button"><label for="chooseMain">Загрузить фото превю</label></div>
@@ -21,9 +21,9 @@
                 <option style="padding: 10px 0" selected value="Other">Other</option>
             </select>
         </span>
-		<textarea keywords placeholder="Ключевые слова" tabindex cols rows="1" ></textarea>
-		<textarea description placeholder="Краткое описание" tabindex cols rows="1" ></textarea>
-		<textarea title id="title" placeholder="Заголовок" tabindex cols rows="1" ></textarea>
+		<textarea style="line-height: 2em;" keywords placeholder="Ключевые слова" tabindex cols rows="1" ></textarea>
+		<textarea style="line-height: 2em;" description placeholder="Краткое описание" tabindex cols rows="1" ></textarea>
+		<textarea style="line-height: 1.6em;" title id="title" placeholder="Заголовок" tabindex cols rows="1" ></textarea>
 		<div id="wrap_chooseHead">
 			<input onchange="change_head(this)" id="chooseHead" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон заголовка</label></div>
