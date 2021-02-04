@@ -22,8 +22,6 @@ include "bleack_list2.php";?>
 <section class="container">
 	<div id="wrap_gen">
 <!--		<textarea id="link" linc placeholder="Ссылка" tabindex cols rows >--><?php //echo $row['linc'] ?><!--</textarea>-->
-
-
 		<div id="wrap_chooseMain">
 			<div class="adminBtn">
 				<div onclick="delPhotoMain()" class="button button_signIn">Delete</div>
@@ -31,11 +29,8 @@ include "bleack_list2.php";?>
 			<img src="<?php echo $row['img'] ?>" class="photoMain">
 		</div>
 
-
         <span style="display: block; margin: 2em 0 0.3em 0; padding: 5px 0"> Категория: &nbsp;
             <select  style="margin: 5px 0;padding: 8px 0" size="1" id="category" name="category">
-
-
                 <option style="padding: 10px 0" <?php if ($row['category'] == 'Money') echo('selected'); ?> value="Money">Money</option>
                 <option style="padding: 10px 0" <?php if ($row['category'] == 'Programs') echo('selected'); ?> value="Programs">Programs</option>
                 <option style="padding: 10px 0" <?php if ($row['category'] == 'Other') echo('selected'); ?> value="Other">Other</option>
@@ -50,6 +45,15 @@ include "bleack_list2.php";?>
 			<div class="adminBtn">
 				<div onclick="delPhotoHead()" class="button button_signIn">Delete</div>
 			</div>
+		</div>
+
+
+
+		<div id="wrap_chooseMainVideo">
+			<div class="adminBtn">
+				<div onclick="delVideoMain()" class="button button_signIn">Delete</div>
+			</div>
+			<video src="<?php echo $row['video_Mhfhd'] ?>" id="video" autoplay="true"></video>
 		</div>
 
 		<div name="editor1" id="editor1">
@@ -70,7 +74,12 @@ include "bleack_list2.php";?>
 	setTimeout(function(){ cke_1_contents.style.height = "555px" }, 1000);
 var linkPhotoMain = '<?php echo $row['img'] ?>';
 var linkPhotoHead = '<?php echo $row['img_head'] ?>';
+
+
+var linkVideoMain = '<?php echo $row['video_Mhfhd'] ?>';
+
 var wrap_chooseMain = document.getElementById("wrap_chooseMain");
+var wrap_chooseMainVideo = document.getElementById("wrap_chooseMainVideo");
 var wrap_chooseHead = document.getElementById("wrap_chooseHead");
 var files; // переменная. будет содержать данные файлов
 	// заполняем переменную данными, при изменении значения поля file
@@ -86,7 +95,74 @@ var files; // переменная. будет содержать данные �
 		upload_photo_head( event );
 	}
 
+	function change_video(file) {
+		files_video = file.files;
+		upload_video( event );
+	}
+		
+	var play = setInterval(function() {
+		document.getElementById("video").play();
+	}, 300);
+
+
 	// обработка и отправка AJAX запроса при клике на кнопку upload_files
+
+	function upload_video( event ){
+	// ничего не делаем если files пустой
+	if( typeof files_video == 'undefined' ) console.log("No file");
+	// создадим объект данных формы
+	var data = new FormData();
+	// заполняем объект данных файлами в подходящем для отправки формате
+	$.each( files_video, function( key, value ){
+		data.append( key, value );
+	});
+	// добавим переменную для идентификации запроса
+	data.append( 'my_file_upload', 1 );
+	// AJAX запрос
+	$.ajax({
+		url         : 'video.php',
+		type        : 'POST', // важно!
+		data        : data,
+		cache       : false,
+		dataType    : 'json',
+		// отключаем обработку передаваемых данных, пусть передаются как есть
+		processData : false,
+		// отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
+		contentType : false,
+		// функция успешного ответа сервера
+		success     : function( respond, status, jqXHR ){
+			if( typeof respond.error === 'undefined' ){
+				// выведем пути загруженных файлов в блок '.ajax-reply'
+				var files_path = respond.files;
+				linkVideoMain = '';
+				$.each( files_path, function( key, val ){
+					linkVideoMain += val;
+					linkVideoMain = linkVideoMain.substr(38);
+					console.log(linkVideoMain);
+				} )
+				var a_b = document.createElement("div");
+				a_b.setAttribute('class', 'adminBtn');
+				a_b.innerHTML = "<div onclick='delVideoMain()' class='button button_signIn'>Delete</div>";
+				wrap_chooseMainVideo.append(a_b);
+				var video = document.createElement("video");
+				video.setAttribute('src', linkVideoMain);
+				video.setAttribute('id', 'video');
+				video.setAttribute('autoplay', 'true');
+				// video.setAttribute('loop', 'true');
+				// video.setAttribute('class', 'photoMain');
+				wrap_chooseMainVideo.append(video);
+				wrap_chooseMainVideo.getElementsByClassName("button")[0].remove();
+				wrap_chooseMainVideo.getElementsByClassName("choose")[0].remove();
+			}
+			else {
+				console.log('ОШИБКА: ' + respond.data );
+			}
+		},
+		error: function( jqXHR, status, errorThrown ){
+			console.log( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
+		}
+	});
+};
 
 
 function upload_photo_main( event ){
@@ -221,6 +297,28 @@ function delPhotoMain() {
 	wrap_chooseMain.append(ChooseA);
 };
 
+function delVideoMain() {
+	console.log('delVideoMain');
+	wrap_chooseMainVideo.getElementsByTagName("video")[0].remove();
+	wrap_chooseMainVideo.getElementsByClassName("adminBtn")[0].remove();
+
+	var ChooseVideo = document.createElement("input");
+	var ChooseAVideo = document.createElement("div");
+	ChooseVideo.setAttribute('id', 'chooseMainVideo');
+	ChooseVideo.setAttribute('class', 'choose chooseMain photo_main');
+	ChooseVideo.setAttribute('onchange', 'change_video(this)');
+	ChooseVideo.setAttribute('type', 'file');
+	ChooseVideo.setAttribute('multiple', 'multiple');
+	ChooseVideo.setAttribute('accept', 'video/mp4');
+	ChooseAVideo.setAttribute('class', 'button');
+	// ChooseA.setAttribute('onclick', 'upload_photo_main(this)');
+	ChooseAVideo.innerHTML = '<label for="chooseMainVideo">Загрузить видео</label>';
+
+	wrap_chooseMainVideo.append(ChooseVideo);
+	wrap_chooseMainVideo.append(ChooseAVideo);
+};
+
+
 function delPhotoHead() {
 	wrap_chooseHead.getElementsByClassName("photoHead")[0].remove();
 	wrap_chooseHead.getElementsByClassName("adminBtn")[0].remove();
@@ -330,7 +428,7 @@ function Generate() {
 		XHR.open( 'POST', 'editarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		DataHTML_CK = encodeURIComponent(DataHTML_CK);
-		XHR.send( `body=${ DataHTML_CK }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}&id=${<?php echo $id_article ?>}` );
+		XHR.send( `body=${ DataHTML_CK }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&video=${linkVideoMain}&category=${category}&id=${<?php echo $id_article ?>}` );
 		XHR.onload = function() {
 				document.location.href = "/g.php";
 			};

@@ -3,7 +3,8 @@
 	$linc = $_POST['linc'];
 	$title = $_POST['title'];
 	$img = $_POST['img'];
-	$img_head = $_POST['img_head'];
+    $img_head = $_POST['img_head'];
+    $video = $_POST['video'];
 	$body = $_POST['body'];
 	$description = $_POST['description'];
 	$keywords = $_POST['keywords'];
@@ -29,7 +30,7 @@
 
 		if ($row['sessionkey'] == strval($sessionkey)) {
 
-			$mysqli->query("INSERT INTO `article`(`linc`, `title`, `body`, `name`, `description`, `keywords`, `img`, `img_head`, `category`, `id_user_add_article_lV8hJ3`) VALUES ('$linc', '$title','$body','$name','$description','$keywords','$img','$img_head','$category','$id_user_add_article')");
+			$mysqli->query("INSERT INTO `article`(`linc`, `title`, `body`, `name`, `description`, `keywords`, `img`, `img_head`, `video_Mhfhd`, `category`, `id_user_add_article_lV8hJ3`) VALUES ('$linc', '$title','$body','$name','$description','$keywords','$img','$img_head','$video','$category','$id_user_add_article')");
 			$id_article = $mysqli->insert_id;
 
 			$str = $row['article'];

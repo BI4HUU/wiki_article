@@ -28,6 +28,10 @@
 			<input onchange="change_head(this)" id="chooseHead" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
 			<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон заголовка</label></div>
 		</div>
+		<div id="wrap_chooseMainVideo">
+			<input onchange="change_video(this)" id="chooseMainVideo" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="video/mp4">
+			<div class="upload_photo_main button"><label for="chooseMainVideo">Загрузить видео</label></div>
+		</div>
 
 		<div name="editor1" id="editor1"></div>
 
@@ -45,9 +49,12 @@
 	setTimeout(function(){ cke_1_contents.style.height = "555px" }, 1000);
 var linkPhotoMain = '';
 var linkPhotoHead = '';
+var linkVideoMain = '';
 var wrap_chooseMain = document.getElementById("wrap_chooseMain");
+var wrap_chooseMainVideo = document.getElementById("wrap_chooseMainVideo");
 var wrap_chooseHead = document.getElementById("wrap_chooseHead");
 var files; // переменная. будет содержать данные файлов
+var files_video; // переменная. будет содержать данные файлов
 	// заполняем переменную данными, при изменении значения поля file
 	// $('.photo_main').on('change', function(){
 	// 	files = this.files;
@@ -61,8 +68,75 @@ function change_head(file) {
 	upload_photo_head( event );
 }
 
+var play = setInterval(function() {
+	document.getElementById("video").play();
+}, 300);
+
+
+function change_video(file) {
+	files_video = file.files;
+	upload_video( event );
+}
+
+// var wrap_chooseMainVideo = document.getElementById("wrap_chooseMainVideo");
 	// обработка и отправка AJAX запроса при клике на кнопку upload_files
 
+	function upload_video( event ){
+	// ничего не делаем если files пустой
+	if( typeof files_video == 'undefined' ) console.log("No file");
+	// создадим объект данных формы
+	var data = new FormData();
+	// заполняем объект данных файлами в подходящем для отправки формате
+	$.each( files_video, function( key, value ){
+		data.append( key, value );
+	});
+	// добавим переменную для идентификации запроса
+	data.append( 'my_file_upload', 1 );
+	// AJAX запрос
+	$.ajax({
+		url         : 'video.php',
+		type        : 'POST', // важно!
+		data        : data,
+		cache       : false,
+		dataType    : 'json',
+		// отключаем обработку передаваемых данных, пусть передаются как есть
+		processData : false,
+		// отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
+		contentType : false,
+		// функция успешного ответа сервера
+		success     : function( respond, status, jqXHR ){
+			if( typeof respond.error === 'undefined' ){
+				// выведем пути загруженных файлов в блок '.ajax-reply'
+				var files_path = respond.files;
+				linkVideoMain = '';
+				$.each( files_path, function( key, val ){
+					linkVideoMain += val;
+					linkVideoMain = linkVideoMain.substr(38);
+					console.log(linkVideoMain);
+				} )
+				var a_b = document.createElement("div");
+				a_b.setAttribute('class', 'adminBtn');
+				a_b.innerHTML = "<div onclick='delVideoMain()' class='button button_signIn'>Delete</div>";
+				wrap_chooseMainVideo.append(a_b);
+				var video = document.createElement("video");
+				video.setAttribute('src', linkVideoMain);
+				video.setAttribute('id', 'video');
+				video.setAttribute('autoplay', 'true');
+				// video.setAttribute('loop', 'true');
+				// video.setAttribute('class', 'photoMain');
+				wrap_chooseMainVideo.append(video);
+				wrap_chooseMainVideo.getElementsByClassName("button")[0].remove();
+				wrap_chooseMainVideo.getElementsByClassName("choose")[0].remove();
+			}
+			else {
+				console.log('ОШИБКА: ' + respond.data );
+			}
+		},
+		error: function( jqXHR, status, errorThrown ){
+			console.log( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
+		}
+	});
+};
 
 function upload_photo_main( event ){
 	// ничего не делаем если files пустой
@@ -190,6 +264,27 @@ function delPhotoMain() {
 	wrap_chooseMain.append(ChooseA);
 };
 
+function delVideoMain() {
+	console.log('delVideoMain');
+	wrap_chooseMainVideo.getElementsByTagName("video")[0].remove();
+	wrap_chooseMainVideo.getElementsByClassName("adminBtn")[0].remove();
+
+	var ChooseVideo = document.createElement("input");
+	var ChooseAVideo = document.createElement("div");
+	ChooseVideo.setAttribute('id', 'chooseMainVideo');
+	ChooseVideo.setAttribute('class', 'choose chooseMain photo_main');
+	ChooseVideo.setAttribute('onchange', 'change_video(this)');
+	ChooseVideo.setAttribute('type', 'file');
+	ChooseVideo.setAttribute('multiple', 'multiple');
+	ChooseVideo.setAttribute('accept', 'video/mp4');
+	ChooseAVideo.setAttribute('class', 'button');
+	// ChooseA.setAttribute('onclick', 'upload_photo_main(this)');
+	ChooseAVideo.innerHTML = '<label for="chooseMainVideo">Загрузить видео</label>';
+
+	wrap_chooseMainVideo.append(ChooseVideo);
+	wrap_chooseMainVideo.append(ChooseAVideo);
+};
+
 function delPhotoHead() {
 	wrap_chooseHead.getElementsByClassName("photoHead")[0].remove();
 	wrap_chooseHead.getElementsByClassName("adminBtn")[0].remove();
@@ -294,7 +389,7 @@ function Generate() {
 		XHR.open( 'POST', 'addarticle.php' );
 		XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
 		DataHTML_CK = encodeURIComponent(DataHTML_CK);
-		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&category=${category}` );
+		XHR.send( `body=${ DataHTML_CK }&linc=${linc }&title=${title }&description=${description }&keywords=${keywords }&img=${linkPhotoMain}&img_head=${linkPhotoHead}&video=${linkVideoMain}&category=${category}` );
 		XHR.onload = function() {
             document.location.href = "/g.php";
         };
@@ -307,16 +402,20 @@ function Generate() {
     console.log( bleack_list )
 
     function check_link(_this) {
+		var _break = true;
         bleack_list.forEach(function (bleack_item) {
             if (_this.value == bleack_item) {
-                _this.classList.add("class", "red");
+                
                 alert(_this.value + ' - This name link used by. Это названия ссылки занято')
                 console.log(_this.value);
+				_this.classList.add("red");
+				_break = false;
             } else {
-                _this.classList.add("class", "");
+                if(_break){_this.classList.remove("red");};
             }
         })
     };
+
 // function AddChoose() {
 // 	var Choose = document.createElement("input")
 // 	var ChooseA = document.createElement("a")

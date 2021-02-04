@@ -1,0 +1,89 @@
+
+<div id="wrap_chooseMainVideo">
+    <input onchange="change_video(this)" id="chooseMainVideo" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="video/mp4">
+    <div class="upload_photo_main button"><label for="chooseMainVideo">Загрузить видео</label></div>
+</div>
+
+
+<!-- <video src="/uploads_video/video_2021-01-22%2005:39:21.mp4"  autoplay="true" loop="true" muted="muted" name="media"></video> -->
+<!-- <video id="video" src="/uploads_video/video_2021-01-22%2005:39:21.mp4" loop="true" name="media"></video> -->
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	// document.getElementById("video").setAttribute('autoplay', 'true');
+
+var play = setInterval(function() {
+	document.getElementById("video").play();
+}, 300);
+
+var files_video; // переменная. будет содержать данные файлов
+
+var linkVideoMain = '';
+var wrap_chooseMainVideo = document.getElementById("wrap_chooseMainVideo");
+
+function change_video(file) {
+	files_video = file.files;
+	upload_video( event );
+}
+
+function upload_video( event ){
+	// ничего не делаем если files пустой
+	if( typeof files_video == 'undefined' ) console.log("No file");
+	// создадим объект данных формы
+	var data = new FormData();
+	// заполняем объект данных файлами в подходящем для отправки формате
+	$.each( files_video, function( key, value ){
+		data.append( key, value );
+	});
+	// добавим переменную для идентификации запроса
+	data.append( 'my_file_upload', 1 );
+	// AJAX запрос
+	$.ajax({
+		url         : 'video.php',
+		type        : 'POST', // важно!
+		data        : data,
+		cache       : false,
+		dataType    : 'json',
+		// отключаем обработку передаваемых данных, пусть передаются как есть
+		processData : false,
+		// отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
+		contentType : false,
+		// функция успешного ответа сервера
+		success     : function( respond, status, jqXHR ){
+			if( typeof respond.error === 'undefined' ){
+				// выведем пути загруженных файлов в блок '.ajax-reply'
+				var files_path = respond.files;
+				linkVideoMain = '';
+				$.each( files_path, function( key, val ){
+					linkVideoMain += val;
+					linkVideoMain = linkVideoMain.substr(38);
+					console.log(linkVideoMain);
+				} )
+				var a_b = document.createElement("div");
+				a_b.setAttribute('class', 'adminBtn');
+				a_b.innerHTML = "<div onclick='delPhotoMain()' class='button button_signIn'>Delete</div>";
+				wrap_chooseMainVideo.append(a_b);
+				var video = document.createElement("video");
+				video.setAttribute('src', linkVideoMain);
+				video.setAttribute('id', 'video');
+				video.setAttribute('autoplay', 'true');
+				video.setAttribute('loop', 'true');
+				
+				video.setAttribute('class', 'photoMain');
+				wrap_chooseMainVideo.append(video);
+				wrap_chooseMainVideo.getElementsByClassName("button")[0].remove();
+				wrap_chooseMainVideo.getElementsByClassName("choose")[0].remove();
+			}
+			else {
+				console.log('ОШИБКА: ' + respond.data );
+			}
+		},
+		error: function( jqXHR, status, errorThrown ){
+			console.log( 'ОШИБКА AJAX запроса: ' + status, jqXHR );
+		}
+	});
+};
+</script>

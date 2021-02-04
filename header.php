@@ -497,10 +497,12 @@
 			justify-content: center;
 			margin: 20px auto 22px auto;
 		}
-		.upload_photo_head {
+		
+		.upload_photo_head,
+		#wrap_chooseMainVideo {
 			margin-bottom: 20px;
-			margin-bottom: 2rem;
-		}
+			margin-bottom: 2rem;}
+
 		#tel {
 			width: 100%;
 			max-width: 310px;
@@ -596,7 +598,8 @@
 			position: relative;
 			z-index: -3; }
 
-		.head img {
+		.head img,
+		.head video {
 			width: 100%;
 			max-width: 100%;
 			height: auto;
@@ -613,9 +616,15 @@
 			left: 0;
 			height: 100%;
 			width: 100%;
-			background: rgba(8, 8, 8, 0.5);
-		}
+			background: rgba(8, 8, 8, 0.5);	}
+
 		.head h1 {
+			display: block;
+			text-align: center;
+			padding: 15px 0;
+			width: 100%; }
+
+		.blekFone h1 {
 			display: block;
 			text-align: center;
 			color: #fff;
@@ -709,7 +718,8 @@
 			font-weight: 500;
 			white-space: nowrap;
 			text-decoration: none;
-			cursor: pointer;	}
+			cursor: pointer;
+			border: 1px solid #ff6a00;	}
 		.button_signIn{
 			border: 2px #ff6a00 solid;
 			color: #ff6a00;
@@ -768,16 +778,20 @@
 			margin: 15px auto 10px auto;
 		}
 
-		#chooseHead, #chooseMain{ display: none;}
+		#chooseHead, #chooseMain, #chooseMainVideo{ display: none;}
 
 		#wrap_chooseHead img{
+			width: 100%;
+			min-height: 180px;}
+
+		#wrap_chooseMainVideo video{
 			width: 100%;
 			min-height: 180px;}
 
 		#wrap_chooseMain{
 			width: 300px;}
 
-		#wrap_chooseHead, #wrap_chooseMain{
+		#wrap_chooseHead, #wrap_chooseMain, #wrap_chooseMainVideo{
 			position: relative;}
 
 		#wrap_chooseHead .adminBtn {
@@ -786,16 +800,29 @@
 		#wrap_chooseMain .adminBtn {
 			opacity: 0;}
 
+		#wrap_chooseMainVideo .adminBtn {
+			z-index: 7;
+			opacity: 0;}
+
 		#wrap_chooseHead .button {
 			background: #fff;}
 
 		#wrap_chooseMain .button {
 			background: #fff;}
 
+		#wrap_chooseMainVideo .button {
+			background: #fff;}
+
 		#wrap_chooseHead .button:hover {
+			z-index: 8;
 			background: #ff6a00;}
 
 		#wrap_chooseMain .button:hover {
+			z-index: 8;
+			background: #ff6a00;}
+
+		#wrap_chooseMainVideo .button:hover {
+			z-index: 8;
 			background: #ff6a00;}
 
 
@@ -806,6 +833,12 @@
 			background-color: rgba(33, 33, 33, 0.4);}
 
 		#wrap_chooseMain:hover .adminBtn {
+			opacity: 1;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(33, 33, 33, 0.4);}
+
+		#wrap_chooseMainVideo:hover .adminBtn {
 			opacity: 1;
 			height: 100%;
 			width: 100%;

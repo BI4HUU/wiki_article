@@ -4,6 +4,7 @@
 	$title =       $_POST['title'];
 	$img =         $_POST['img'];
 	$img_head =    $_POST['img_head'];
+	$video =       $_POST['video'];
 	$body =        $_POST['body'];
 	$description = $_POST['description'];
 	$keywords =    $_POST['keywords'];
@@ -50,7 +51,7 @@
                 echo 4;
 				if ($value == $id){
                     echo 5;
-					$mysqli->query("UPDATE `article` SET `title` = '$title', `body` = '$body', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `category` = '$category' WHERE `article`.`id_article` = '$id'");
+					$mysqli->query("UPDATE `article` SET `title` = '$title', `body` = '$body', `description` = '$description', `keywords` = '$keywords', `img` = '$img', `img_head` = '$img_head', `video_Mhfhd` = '$video', `category` = '$category' WHERE `article`.`id_article` = '$id'");
 				}
 			}
 		}
