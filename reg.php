@@ -2,9 +2,14 @@
 	include "connect.php";
 
 	$tel = $_POST['tel'];
+ 
+	if ($tel[0] == " ") {
+		$tel = substr($tel, 1); 
+	}
+	$tel2 = "+".$tel;
 //	$name = $_POST['full_name'];
 	$name = '';
-	// $pass = md5($_POST['password']);
+// $pass = md5($_POST['password']);
 	$code = $_POST['confirm'];
 
 	if ($code == '') { die( "Missed the code!" ); };
@@ -59,6 +64,11 @@
 		return $pass;
 	};
 
+	echo 1;
+	echo $row['code'];
+	echo 2;
+	echo strval($code);
+	echo 3;
 	if ($row['code'] == strval($code)) {
 		$_session_key =  generate_session(40);
 
