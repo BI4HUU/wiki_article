@@ -39,22 +39,44 @@ include "bleack_list2.php";?>
 		<textarea keywords placeholder="Ключевые слова" tabindex cols rows="1" ><?php echo $row['keywords'] ?></textarea>
 		<textarea description placeholder="Краткое описание" tabindex cols rows="1" ><?php echo $row['description'] ?></textarea>
 		<textarea title id="title" placeholder="Заголовок" tabindex cols rows="1" ><?php echo $row['title'] ?></textarea>
-
 		<div id="wrap_chooseHead">
-			<img src="<?php echo $row['img_head'] ?>" class="photoHead">
-			<div class="adminBtn">
-				<div onclick="delPhotoHead()" class="button button_signIn">Delete</div>
-			</div>
-		</div>
 
 
+<?php
+if ($row['img_head'] == '') {
+	echo `<input onchange="change_head(this)" id="chooseHead" class="choose chooseMain photo_main" value="Choose main photo" type="file" multiple="multiple" accept="image/jpg">
+	<div class="upload_photo_head button"><label for="chooseHead">Загрузить фото фон заголовка</label></div>`
+} else {
+echo  <<<EOT
+	<img src="{$row['img_head']}" class="photoHead">
+	<div class="adminBtn">
+		<div onclick="delPhotoHead()" class="button button_signIn">Delete</div>
+	</div>
+EOT;
+};
+ ?>
+ </div>
 
 		<div id="wrap_chooseMainVideo">
+
+		<?php
+if ($row['video_Mhfhd'] == '') {
+	echo `<input onchange="change_video(this)" id="chooseMainVideo" class="choose chooseMain photo_main"  value="Choose main photo" type="file" multiple="multiple" accept="video/mp4">
+	<div class="upload_photo_main button"><label for="chooseMainVideo">Загрузить видео</label></div>`
+} else {
+echo  <<<EOT2
+
 			<div class="adminBtn">
 				<div onclick="delVideoMain()" class="button button_signIn">Delete</div>
 			</div>
 			<video src="<?php echo $row['video_Mhfhd'] ?>" id="video" autoplay="true"></video>
+
+EOT2;
+};
+ ?>
+
 		</div>
+
 
 		<div name="editor1" id="editor1">
 			<?php echo $row['body'] ?>
@@ -316,6 +338,7 @@ function delVideoMain() {
 
 	wrap_chooseMainVideo.append(ChooseVideo);
 	wrap_chooseMainVideo.append(ChooseAVideo);
+	linkVideoMain = '';
 };
 
 
@@ -336,6 +359,7 @@ function delPhotoHead() {
 
 	wrap_chooseHead.append(Choose);
 	wrap_chooseHead.append(ChooseA);
+	linkPhotoHead = '';
 };
 
 function upload_files() {
