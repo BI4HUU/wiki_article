@@ -1,5 +1,4 @@
 <?php
-
 	include "connect.php";
 
 	$tel = $_POST['tel'];

@@ -111,7 +111,7 @@ function change_video(file) {
 				linkVideoMain = '';
 				$.each( files_path, function( key, val ){
 					linkVideoMain += val;
-					linkVideoMain = linkVideoMain.substr(38);
+					linkVideoMain = linkVideoMain.substr(41);
 					console.log(linkVideoMain);
 				} )
 				var a_b = document.createElement("div");
@@ -168,7 +168,7 @@ function upload_photo_main( event ){
 				linkPhotoMain = '';
 				$.each( files_path, function( key, val ){
 					linkPhotoMain += val;
-					linkPhotoMain = linkPhotoMain.substr(38);
+					linkPhotoMain = linkPhotoMain.substr(41);
 				} )
 				var a_b = document.createElement("div");
 				a_b.setAttribute('class', 'adminBtn');
@@ -219,7 +219,7 @@ function upload_photo_head(event){
 				linkPhotoHead = '';
 				$.each( files_path, function( key, val ){
 					linkPhotoHead += val;
-					linkPhotoHead = linkPhotoHead.substr(38);
+					linkPhotoHead = linkPhotoHead.substr(41);
 				} );
 				var img = document.createElement("img");
 				var a_b = document.createElement("div");
@@ -330,7 +330,7 @@ function upload_files() {
 				var linkPhoto = '';
 				$.each( files_path, function( key, val ){
 					linkPhoto += val;
-					linkPhoto = linkPhoto.substr(38);
+					linkPhoto = linkPhoto.substr(41);
 				} )
 				var img = document.createElement("img")
 				img.setAttribute('src', linkPhoto);

@@ -69,6 +69,8 @@
 	echo 2;
 	echo strval($code);
 	echo 3;
+	echo strval($code);
+	echo 3;
 	if ($row['code'] == strval($code)) {
 		$_session_key =  generate_session(40);
 
