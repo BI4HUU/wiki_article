@@ -908,7 +908,7 @@
 				<div class="burger_line burger_line_2"></div>
 				<div class="burger_line burger_line_3"></div>
 			</div>
-			<div class="logo"><a href="/" rel="noreferrer noopener">LOGO</a></div>
+			<div class="logo"><a href="/" rel="noreferrer noopener">NAMASAM</a></div>
 		</div>
 		<div class="menu">
 			<a href="index.php" class="menu_item menu_item1 <?php if (!$menu_item_active) echo 'menu_item_active'; ?>">Trending</a>
